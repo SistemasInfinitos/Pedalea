@@ -5,7 +5,7 @@ namespace PedaleaAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PersonasController : ControllerBase
+    public class VentasController : ControllerBase
     {
     }
 }
