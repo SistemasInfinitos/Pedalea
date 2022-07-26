@@ -1,6 +1,7 @@
 ﻿using CanonicalModel.Model.Configuration;
-using CanonicalModel.Model.Entity;
+using CanonicalModel.Model.Entity.Persona;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 using System.Text.Json;
 
 namespace PedaleaWEB.Controllers.StorePedalea
@@ -72,7 +73,6 @@ namespace PedaleaWEB.Controllers.StorePedalea
             responseClient.Errors.Add("Su sesión a Caducado, Acceso denegado!");
             return Json(new { model, responseClient });
         }
-
 
         [HttpPost]
         public async Task<JsonResult> CrearPersonas()

@@ -1,4 +1,4 @@
-﻿using CanonicalModel.Model.Entity;
+﻿using CanonicalModel.Model.Entity.Persona;
 
 namespace PedaleaAPI.Repository
 {

@@ -1,11 +1,12 @@
 ﻿using CanonicalModel.Model.Configuration;
-using CanonicalModel.Model.Entity;
+using CanonicalModel.Model.Entity.Persona;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PedaleaAPI.Repository;
 using PedaleaAPI.Repository.Persona;
 using System.Data;
+using System.Text.Json;
 
 namespace PedaleaAPI.Controllers
 {
@@ -58,6 +59,7 @@ namespace PedaleaAPI.Controllers
                 return e.GetHashCode();
             }
         }
+
         #endregion
     }
 }

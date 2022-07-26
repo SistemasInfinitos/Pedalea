@@ -1,5 +1,5 @@
 ﻿using CanonicalModel.Model.Configuration;
-using CanonicalModel.Model.Entity;
+using CanonicalModel.Model.Entity.Persona;
 using Microsoft.Extensions.Options;
 using System.Data;
 using System.Data.SqlClient;

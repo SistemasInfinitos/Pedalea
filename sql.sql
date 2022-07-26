@@ -58,7 +58,7 @@ CREATE TABLE [dbo].[Personas](
 	[Identificacion] [varchar](15) NULL,
 )
 GO
-
+-alter table Personas add [EsProveedor] [bit]  NULL
 CREATE TABLE [dbo].[Productos](
 	[ProductoID] [int] IDENTITY(1,1) NOT NULL,
 	[Producto] [varchar](50) NOT NULL,
@@ -90,14 +90,15 @@ alter procedure SpInserPersona
 @PrimerApellido varchar(50),
 @SegundoApellido varchar(50),
 @EsCliente bit,
+@EsProveedor bit,
 @Identificacion varchar(15)
 as
 begin 
 --declare @id int =1--prueba 
 if EXISTS(select COUNT(*) from Personas where PersonaID!=@PersonaID)
 	begin
-	insert into Personas(PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,EsCliente,Identificacion)
-	values(@PrimerNombre,@SegundoNombre,@PrimerApellido,@SegundoApellido,@EsCliente,@Identificacion)
+	insert into Personas(PrimerNombre,SegundoNombre,PrimerApellido,SegundoApellido,EsCliente,EsProveedor,Identificacion)
+	values(@PrimerNombre,@SegundoNombre,@PrimerApellido,@SegundoApellido,@EsCliente,@EsProveedor,@Identificacion)
 	select respuesta=@@ROWCOUNT; 
 	end
 else 
@@ -112,6 +113,7 @@ alter procedure SpUpdatePersona
 @PrimerApellido varchar(50),
 @SegundoApellido varchar(50),
 @EsCliente bit,
+@EsProveedor bit,
 @Identificacion varchar(15)
 as
 begin 
@@ -124,6 +126,7 @@ if EXISTS(select COUNT(*) from Personas where PersonaID=@PersonaID)
 	PrimerApellido=@PrimerApellido,
 	SegundoApellido=@SegundoApellido,
 	EsCliente=@EsCliente,
+	EsProveedor=@EsProveedor,
 	Identificacion=@Identificacion where PersonaID=@PersonaID
 
 	select respuesta=@@ROWCOUNT; 

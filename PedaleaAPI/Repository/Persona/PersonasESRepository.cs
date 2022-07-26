@@ -1,5 +1,5 @@
 ﻿using CanonicalModel.Model.Configuration;
-using CanonicalModel.Model.Entity;
+using CanonicalModel.Model.Entity.Persona;
 using Microsoft.Extensions.Options;
 using System.Data;
 using System.Data.SqlClient;
@@ -66,6 +66,7 @@ namespace PedaleaAPI.Repository.Persona
                     {
                         PersonaID = Convert.ToInt32(rdr["PersonaID"]),
                         PrimerNombre = rdr["PrimerNombre"].ToString(),
+                        Identificacion = rdr["identificacion"].ToString(),
                         SegundoNombre = rdr["SegundoNombre"].ToString(),
                         PrimerApellido = rdr["PrimerApellido"].ToString(),
                         SegundoApellido = rdr["SegundoApellido"].ToString(),
@@ -78,5 +79,6 @@ namespace PedaleaAPI.Repository.Persona
                 return (personas);
             }
         }
+
     }
 }

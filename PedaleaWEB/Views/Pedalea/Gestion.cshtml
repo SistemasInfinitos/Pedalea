@@ -4,9 +4,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<ul class="navbar-nav navbar-sidenav accordion text-white-50 ml-auto" id="navbarSidenavAccordion">
+<div class="card mb-3" style="margin-top:57px;">
 
-</ul>
+    <div class="card-header">
+        <i class="fa fa-table"></i> @ViewData["Title"] &emsp;
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <br />
+            <div style="width:90%; margin:0 auto;">
+                <table id="tableDinamica" class="table table-striped table-bordered table-hover dt-responsive nowrap display compact" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">Editar</th>
+                            <th style="text-align:center">NIU</th>
+                            <th style="text-align:center">Nombres</th>
+                            <th style="text-align:center">Es Cliente</th>
+                            <th style="text-align:center">Es Proveedor</th>
+                            <th style="text-align:center">Acción</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 
@@ -15,62 +37,56 @@
         GetPersonas();
     });
 
-    function GetPersonas()
-    {
-        $('#LoadingInfinito').show();
-        $.ajax(
-        {
+
+    function GetPersonas() {
+        $.ajax({
             url: '/Pedalea/GetPersonas',
             method: 'GET',
             data: {},
             traditional: true,
             async: true,
             dataType: 'JSON',
-            success: function (Menu)
-            {
+            success: function (response) {
                 debugger
-                if (Menu.responseClient.success) {
-                    $.each(Menu.model, function (index, value) {
-                        //$(`ul li #opLevel${value.id}`).empty();
-                        var html =
-                            $(`<li class="nav-item" id="modulo${value.PersonaID}" onclick="GetMenusModulos(${value.PersonaID})">
-                                <a data-bs-toggle="collapse" href="#${value.PrimerNombre}" class="nav-link text-dark" aria-controls="${value.PrimerNombre}" role="button" aria-expanded="false">
-                                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                        <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-                                    </div>
-                                    <h4 class="nav-link-text text-sm ms-1">${value.detalle}</h4>
-                                </a>
-                                <div class="collapse" id="${value.PrimerNombre}">
-                                    <ul class="navbar-nav" id="navbarNav${value.PersonaID}">
-
-                                    </ul>
-                                </div>
-                            </li>
-                            `);
-                        $('#navbarSidenavAccordion').append(html);
-                    })
-                }
-                else
-                {
-                    debugger
-                    var mensaje = "";
-                    $(Menu.responseClient.errors).each(function (i) {
-                        mensaje += Menu.responseClient.errors[i] + "<br>";
-                    });
-                    toastr.error(mensaje);
-                    if (Menu.responseClient.session == false) {
-                        window.location.href = "/Home/SignIn";
-                        //setTimeout(function () { window.location.href = "/Home/SignIn"; }, 2000);
+                $('#tableDinamica').DataTable().clear();
+                $('#tableDinamica').DataTable().destroy();
+                $('#tableDinamica').find('tbody').empty();
+                if (response.responseClient.success==true) {
+                   // toastr.success(response.mensaje, "Atención!");
+                    for (var i = 0; i < response.model.length; i++) {
+                        $('#tableDinamica').find('tbody').append(
+                            `<tr id="">
+                                <td align="right">
+                                    <button type="button" class="btn btn-success btn-xs" onclick="GestionEquipos('${response.model[i].personaID}')">
+                                        <i class="fa fa-pencil-square"></i>&nbsp;Editar&nbsp;&nbsp;
+                                    </button>
+                                </td>
+                                <td align="right">${ response.model[i].identificacion}</td>
+                                <td align="right">${ response.model[i].primerNombre + " " +response.model[i].primerApellido}</td>
+                                <td align="right">${ response.model[i].esCliente}</td>
+                                <td align="right">${ response.model[i].esProveedor}</td>
+                                <td align="right">
+                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarEquipo('${response.model[i].personaID}')">
+                                        <i class="fa fa-trash"></i>&nbsp;Borrar&nbsp;&nbsp;
+                                    </button>
+                                </td>
+                            </tr >`);
                     }
-                }
+                } else {
+                    //toastr.error(response.mensaje, "Error");
+                };
             },
-            complete: function () { $('#LoadingInfinito').hide(); },
-            error: function (data) {
-                debugger
-                if (data.status == 401) {
-                    window.location.href = "/Home/SignIn";
-                }
+            error: function (jQXHR) {debugger
+                //toastr.error('No pudimos procesar su Solicitud!')
+            },
+            complete: function () {
+                $('#tableDinamica').DataTable({
+                    dom: "<''<'col-md-6'l><'col-md-6'f>>t<'col-md-4'i><'col-md-8 text-right'pB>",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: []
+                });
             }
-        })
+        });
     }
+
 </script>
