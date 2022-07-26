@@ -50,15 +50,16 @@ GO
 
 CREATE TABLE [dbo].[Personas](
 	[PersonaID] [int] IDENTITY(1,1) NOT NULL,
-	[PrimerNombre] [varchar](50) NOT NULL,
+	[PrimerNombre] [varchar](50)  NULL,
 	[SegundoNombre] [varchar](50) NULL,
-	[PrimerApellido] [varchar](50) NOT NULL,
+	[PrimerApellido] [varchar](50)  NULL,
 	[SegundoApellido] [varchar](50) NULL,
 	[EsCliente] [bit] NOT NULL,
+	[EsProveedor] [bit] NOT NULL,	
 	[Identificacion] [varchar](15) NULL,
 )
 GO
--alter table Personas add [EsProveedor] [bit]  NULL
+
 CREATE TABLE [dbo].[Productos](
 	[ProductoID] [int] IDENTITY(1,1) NOT NULL,
 	[Producto] [varchar](50) NOT NULL,
