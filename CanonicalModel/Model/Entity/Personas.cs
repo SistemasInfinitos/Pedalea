@@ -9,6 +9,7 @@ namespace CanonicalModel.Model.Entity
     public class Personas
     {
         public int? PersonaID { get; set; }
+        public int? Identificacion { get; set; }
         public string? PrimerNombre { get; set; } 
         public string? SegundoNombre { get; set; } 
         public string? PrimerApellido { get; set; } 

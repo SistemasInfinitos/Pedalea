@@ -20,9 +20,39 @@ namespace PedaleaAPI.Repository
             _jwtConfig = optionsMonitor.CurrentValue;
         }
 
-        public Task<Personas> CrearPersona(Personas entidad)
+        public async Task<int> CrearPersona(Personas entidad)
         {
-            throw new NotImplementedException();
+            using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SpInserPersona", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+
+                SqlParameter param = new();
+                param = cmd.Parameters.Add("@PrimerNombre", SqlDbType.NVarChar, 50);
+                param.Value = entidad.PrimerNombre;
+
+                param = cmd.Parameters.Add("@SegundoNombre", SqlDbType.NVarChar, 50);
+                param.Value = entidad.SegundoNombre;
+
+                param = cmd.Parameters.Add("@PrimerApellido", SqlDbType.NVarChar, 50);
+                param.Value = entidad.PrimerApellido; 
+                
+                param = cmd.Parameters.Add("@SegundoApellido", SqlDbType.NVarChar, 50);
+                param.Value = entidad.SegundoApellido;   
+                
+                param = cmd.Parameters.Add("@EsCliente", SqlDbType.Bit);
+                param.Value = entidad.EsCliente;
+
+                param = cmd.Parameters.Add("@Identificacion", SqlDbType.Int);
+                param.Value = entidad.Identificacion;
+
+                //add the parameter to the SqlCommand object
+                cmd.Parameters.Add(param);
+                int rowsAffected =await cmd.ExecuteNonQueryAsync();
+                con.Close();
+                return (rowsAffected);
+            }
         }
 
         public async Task<List<Personas>> GetPersonas()
