@@ -80,5 +80,33 @@ namespace PedaleaAPI.Repository.Persona
             }
         }
 
+        public async Task<Personas> GetPersonasById(int PersonaID)
+        {
+            Personas personas = new Personas();
+            using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SpGetPersonasById", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (await rdr.ReadAsync())
+                {
+                    var employee = new Personas()
+                    {
+                        PersonaID = Convert.ToInt32(rdr["PersonaID"]),
+                        PrimerNombre = rdr["PrimerNombre"].ToString(),
+                        Identificacion = rdr["identificacion"].ToString(),
+                        SegundoNombre = rdr["SegundoNombre"].ToString(),
+                        PrimerApellido = rdr["PrimerApellido"].ToString(),
+                        SegundoApellido = rdr["SegundoApellido"].ToString(),
+                        EsCliente = Convert.ToBoolean(rdr["EsCliente"].ToString()),
+                        EsProveedor = Convert.ToBoolean(((!string.IsNullOrWhiteSpace(rdr["EsProveedor"]?.ToString())? rdr["EsProveedor"]?.ToString() :false))),
+                    };
+                    personas=employee;
+                }
+                con.Close();
+                return (personas);
+            }
+        }
     }
 }

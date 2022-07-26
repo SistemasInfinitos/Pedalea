@@ -16,5 +16,12 @@ namespace PedaleaAPI.Repository.Persona
         /// </summary>
         /// <returns></returns>
         Task<List<Personas>> GetPersonas();
+
+        /// <summary>
+        /// Obtiene la persona seleccionada
+        /// </summary>
+        /// <param name="PersonaID"></param>
+        /// <returns></returns>
+        Task<Personas> GetPersonasById(int PersonaID);
     }
 }

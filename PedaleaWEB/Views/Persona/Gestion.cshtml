@@ -196,5 +196,55 @@
         });
     }
 
+    function GetPersonasById() {
+        $.ajax({
+            url: `/api/PersonaAPI/GetPersonasById?PersonaID=${PersonaID}`,
+            method: 'GET',
+            data: {},
+            traditional: true,
+            async: true,
+            dataType: 'JSON',
+            success: function (response) {
+                $('#tableDinamica').DataTable().clear();
+                $('#tableDinamica').DataTable().destroy();
+                $('#tableDinamica').find('tbody').empty();
+                if (response.responseClient.success==true) {
+                    for (var i = 0; i < response.model.length; i++) {
+                        $('#tableDinamica').find('tbody').append(
+                            `<tr id="">
+                                <td align="right">
+                                    <button type="button" class="btn btn-success btn-xs" onclick="GetModalCrear('${response.model[i].personaID}')">
+                                        <i class="fa fa-pencil-square"></i>&nbsp;Editar&nbsp;&nbsp;
+                                    </button>
+                                </td>
+                                <td align="right">${ response.model[i].identificacion}</td>
+                                <td align="right">${ response.model[i].primerNombre + " " +response.model[i].primerApellido}</td>
+                                <td align="right">${ response.model[i].esCliente}</td>
+                                <td align="right">${ response.model[i].esProveedor}</td>
+                                <td align="right">
+                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarPersona('${response.model[i].personaID}')">
+                                        <i class="fa fa-trash"></i>&nbsp;Borrar&nbsp;&nbsp;
+                                    </button>
+                                </td>
+                            </tr >`);
+                    }
+                } else {
+                    toastr.error(response.mensaje, "Error");
+                };
+            },
+            error: function (jQXHR) {
+                toastr.error('No pudimos procesar su Solicitud!')
+            },
+            complete: function () {
+                $("#modalCrear").modal("hide")
+                $('#tableDinamica').DataTable({
+                    dom: "<''<'col-md-6'l><'col-md-6'f>>t<'col-md-4'i><'col-md-8 text-right'pB>",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: []
+                });
+            }
+        });
+    }
+
 </script>
 
