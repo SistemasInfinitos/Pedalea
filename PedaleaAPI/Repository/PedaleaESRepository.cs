@@ -48,6 +48,7 @@ namespace PedaleaAPI.Repository
                     };
                     personas.Add(employee);
                 }
+                con.Close();
                 return (personas);
             }
         }
