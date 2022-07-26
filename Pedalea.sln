@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedaleaWEB", "PedaleaWEB\PedaleaWEB.csproj", "{AB8C80CD-4C15-4161-A073-35A3026644F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PedaleaWEB", "PedaleaWEB\PedaleaWEB.csproj", "{AB8C80CD-4C15-4161-A073-35A3026644F2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{8CE364C8-8792-4CCF-AEE6-BE11891BF768}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedaleaAPI", "PedaleaAPI\PedaleaAPI.csproj", "{3A751962-2660-43C2-9099-D99BB5EBF33D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PedaleaAPI", "PedaleaAPI\PedaleaAPI.csproj", "{3A751962-2660-43C2-9099-D99BB5EBF33D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{E959CABD-D2E5-4BF1-A1A9-DECCA8497ABE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonicalModel", "CanonicalModel\CanonicalModel.csproj", "{5589EA46-0327-4C7F-A73E-5562B14CD5BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CanonicalModel", "CanonicalModel\CanonicalModel.csproj", "{5589EA46-0327-4C7F-A73E-5562B14CD5BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB", "WEB\WEB.csproj", "{F5BE9E45-B882-4A95-AD27-BBF04BC60C76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{5589EA46-0327-4C7F-A73E-5562B14CD5BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5589EA46-0327-4C7F-A73E-5562B14CD5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5589EA46-0327-4C7F-A73E-5562B14CD5BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5BE9E45-B882-4A95-AD27-BBF04BC60C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5BE9E45-B882-4A95-AD27-BBF04BC60C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5BE9E45-B882-4A95-AD27-BBF04BC60C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5BE9E45-B882-4A95-AD27-BBF04BC60C76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
