@@ -113,7 +113,7 @@
         var entidad = JSON.stringify(data);
         if (update == false) {
             $.ajax({
-                url: '/Pedalea/CrearPersonas',
+                url: '/api/PedaleaAPI/CrearPersonas',
                 'type': 'POST',
                 data: entidad,
                 //headers: {
@@ -141,7 +141,7 @@
         }
         else if (PersonaID != "" && PersonaID != undefined && PersonaID != NaN) { debugger
             $.ajax({
-                url: '/Pedalea/GetPersonas',
+                url: '/api/PedaleaAPI/GetPersonas',
                 'type': 'PUT',
                 data: entidad,
                 headers: {
@@ -174,7 +174,7 @@
 
     function GetPersonas() {
         $.ajax({
-            url: '/Pedalea/GetPersonas',
+            url: '/api/PedaleaAPI/GetPersonas',
             method: 'GET',
             data: {},
             traditional: true,
