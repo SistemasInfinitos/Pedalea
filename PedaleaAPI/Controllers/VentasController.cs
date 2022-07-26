@@ -21,16 +21,17 @@ namespace PedaleaAPI.Controllers
             _repository = new PedaleaESRepository(optionsMonitor);
         }
 
+        #region Persona
         [Route("[action]", Name = "GetPersonas")]
         [HttpGet]
         public async Task<List<Personas>> GetPersonas()
         {
-            List<Personas> personas= new List<Personas>();
+            List<Personas> personas = new List<Personas>();
             try
             {
                 var data = await _repository.GetPersonas();
 
-                return  data;
+                return data;
             }
             catch (EvaluateException e)
             {
@@ -56,5 +57,6 @@ namespace PedaleaAPI.Controllers
                 return e.GetHashCode();
             }
         }
+        #endregion
     }
 }
