@@ -75,7 +75,7 @@ namespace PedaleaWEB.Controllers.StorePedalea
         }
 
         [HttpPost]
-        public async Task<JsonResult> CrearPersonas()
+        public async Task<JsonResult> CrearPersonas([FromBody] Personas entidad)
         {
             var options = new JsonSerializerOptions { IncludeFields = true, PropertyNameCaseInsensitive = true };
             await HttpContext.Session.LoadAsync();
@@ -95,7 +95,9 @@ namespace PedaleaWEB.Controllers.StorePedalea
 
                     try
                     {
-                        var response = await httpClient.GetAsync(uri);
+                        var json = JsonSerializer.Serialize(entidad, options);
+                        var data = new StringContent(json, Encoding.UTF8, "application/json");
+                        var response = await httpClient.PostAsync(uri, data);
 
                         if (response.IsSuccessStatusCode)
                         {

@@ -45,7 +45,7 @@
       </div>
       <div class="modal-body ">
         <div class="row col-md-12  ">
-          <input type="text" class="form-control" id="PersonaID" hidden>
+          <input type="text" class="form-control" id="PersonaID" hidden >
           <div class="col-md-3">
             <label for="Identificacion" class="col-form-label">Identificacion:</label>
             <input type="text" class="form-control" id="Identificacion">         
@@ -67,16 +67,12 @@
             <input class="form-control" id="SegundoApellido">
           </div>  
           <div class="col-md-3">
-            <label for="SegundoApellido" class="col-form-label">Segundo Apellido:</label>
-            <input class="form-control" id="SegundoApellido">
-          </div> 
-          <div class="col-md-3">
             <label for="EsCliente" class="col-form-label">Es Cliente:</label>
-            <input class="form-control" id="EsCliente">
+            <input type="checkbox" class="form-check checkbox" id="EsCliente">
           </div>   
           <div class="col-md-3">
             <label for="EsProveedor" class="col-form-label">Es Proveedor:</label>
-            <input class="form-control" id="EsProveedor">
+            <input type="checkbox" class="form-check checkbox" id="EsProveedor">
           </div>
         </div>
       </div>
@@ -88,7 +84,8 @@
   </div>
 </div>
 <script>
-
+    var PersonaID = 0;
+    var update = false;
     $(document).ready(function () {
         GetPersonas();
     })
@@ -99,38 +96,37 @@
     }
 
      $("#btnCrear").click(function () {
-        var idEquipo = $("#idEquipo").val();
-        
+          PersonaID = parseInt($("#PersonaID").val());
+
+         if (PersonaID > 0) { } else {PersonaID=0 }
         var data = {
-            PersonaID: parseInt($("#PersonaID").val()),
+            PersonaID: PersonaID,
             PrimerNombre: $("#PrimerNombre").val(),
             SegundoNombre: $("#SegundoNombre").val(),
             PrimerApellido: $("#PrimerApellido").val(),
             SegundoApellido: $("#SegundoApellido").val(),
-            EsCliente: $("#EsCliente").val(),
-            EsProveedor: $("#EsProveedor").val(),
+            EsCliente: $("#EsCliente").prop("checked"),
+            EsProveedor: $("#EsProveedor").prop("checked"),
             Identificacion: $("#Identificacion").val(),
         }
         debugger
-        return
         var entidad = JSON.stringify(data);
         if (update == false) {
             $.ajax({
                 url: '/Pedalea/CrearPersonas',
-                //method: 'Post',
                 'type': 'POST',
                 data: entidad,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                traditional: true,
+                //headers: {
+                //    'Accept': 'application/json',
+                //    'Content-Type': 'application/json'
+                //},
+                //traditional: true,
                 async: true,
-                dataType: "JSON",
+                //dataType: "JSON",
                 success: function (response) {
-                    
+                    debugger
                     if (response.responseClient.success) {
-                        toastr.success(response.responseClient.mensaje;
+                        toastr.success(response.responseClient.mensaje);
                     } else {
                         toastr.warning(response.responseClient.mensaje);
                     }
@@ -138,12 +134,12 @@
                 complete: function () {
 
                 },
-                error: function (data) {
+                error: function (data) {debugger
                    toastr.error("No pudimos completar tu solicitud!");
                 }
             });
         }
-        else if (id != "" && id != undefined && id != NaN) {
+        else if (PersonaID != "" && PersonaID != undefined && PersonaID != NaN) { debugger
             $.ajax({
                 url: '/Pedalea/GetPersonas',
                 'type': 'PUT',
@@ -156,9 +152,9 @@
                 async: true,
                 dataType: "JSON",
                 success: function (response) {
-                    
+                    debugger
                     if (response.responseClient.success) {
-                        toastr.success(response.responseClient.mensaje;
+                        toastr.success(response.responseClient.mensaje);
                     } else {
                         toastr.warning(response.responseClient.mensaje);
                     }
@@ -185,12 +181,10 @@
             async: true,
             dataType: 'JSON',
             success: function (response) {
-                debugger
                 $('#tableDinamica').DataTable().clear();
                 $('#tableDinamica').DataTable().destroy();
                 $('#tableDinamica').find('tbody').empty();
                 if (response.responseClient.success==true) {
-                   // toastr.success(response.mensaje, "Atención!");
                     for (var i = 0; i < response.model.length; i++) {
                         $('#tableDinamica').find('tbody').append(
                             `<tr id="">
@@ -211,11 +205,11 @@
                             </tr >`);
                     }
                 } else {
-                    //toastr.error(response.mensaje, "Error");
+                    toastr.error(response.mensaje, "Error");
                 };
             },
-            error: function (jQXHR) {debugger
-                //toastr.error('No pudimos procesar su Solicitud!')
+            error: function (jQXHR) {
+                toastr.error('No pudimos procesar su Solicitud!')
             },
             complete: function () {
                 $('#tableDinamica').DataTable({
