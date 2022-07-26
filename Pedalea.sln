@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedaleaWEB", "PedaleaWEB\PedaleaWEB.csproj", "{AB8C80CD-4C15-4161-A073-35A3026644F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{8CE364C8-8792-4CCF-AEE6-BE11891BF768}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedaleaAPI", "PedaleaAPI\PedaleaAPI.csproj", "{3A751962-2660-43C2-9099-D99BB5EBF33D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB8C80CD-4C15-4161-A073-35A3026644F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB8C80CD-4C15-4161-A073-35A3026644F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB8C80CD-4C15-4161-A073-35A3026644F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB8C80CD-4C15-4161-A073-35A3026644F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A751962-2660-43C2-9099-D99BB5EBF33D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A751962-2660-43C2-9099-D99BB5EBF33D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A751962-2660-43C2-9099-D99BB5EBF33D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A751962-2660-43C2-9099-D99BB5EBF33D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3A751962-2660-43C2-9099-D99BB5EBF33D} = {8CE364C8-8792-4CCF-AEE6-BE11891BF768}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FDBBDCBA-53BF-4057-A674-8E565FD776B1}
+	EndGlobalSection
+EndGlobal
