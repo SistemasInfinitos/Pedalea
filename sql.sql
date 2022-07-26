@@ -83,14 +83,14 @@ end
 
 GO
 
-create procedure SpInserPersona
+alter procedure SpInserPersona
 @PersonaID int,
-@PrimerNombre varchar,
-@SegundoNombre varchar,
-@PrimerApellido varchar,
-@SegundoApellido varchar,
+@PrimerNombre varchar(50),
+@SegundoNombre varchar(50),
+@PrimerApellido varchar(50),
+@SegundoApellido varchar(50),
 @EsCliente bit,
-@Identificacion varchar
+@Identificacion varchar(15)
 as
 begin 
 --declare @id int =1--prueba 
@@ -105,14 +105,14 @@ else
 end
 GO
 
-create procedure SpUpdatePersona
+alter procedure SpUpdatePersona
 @PersonaID int,
-@PrimerNombre varchar,
-@SegundoNombre varchar,
-@PrimerApellido varchar,
-@SegundoApellido varchar,
+@PrimerNombre varchar(50),
+@SegundoNombre varchar(50),
+@PrimerApellido varchar(50),
+@SegundoApellido varchar(50),
 @EsCliente bit,
-@Identificacion varchar
+@Identificacion varchar(15)
 as
 begin 
 --declare @id int =1--prueba 
@@ -148,3 +148,6 @@ else
 end
 
 GO
+
+
+select * from Personas

@@ -24,34 +24,29 @@ namespace PedaleaAPI.Repository
         {
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SpInserPersona", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                con.Open();
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SpInserPersona", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
 
-                SqlParameter param = new();
-                param = cmd.Parameters.Add("@PrimerNombre", SqlDbType.NVarChar, 50);
-                param.Value = entidad.PrimerNombre;
+                    cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = entidad.PersonaID??0;
+                    cmd.Parameters.Add("@PrimerNombre", SqlDbType.VarChar,50).Value = entidad.PrimerNombre;
+                    cmd.Parameters.Add("@SegundoNombre", SqlDbType.VarChar,50).Value = entidad.SegundoNombre;
+                    cmd.Parameters.Add("@PrimerApellido", SqlDbType.VarChar,50).Value = entidad.PrimerApellido;
+                    cmd.Parameters.Add("@SegundoApellido", SqlDbType.VarChar,50).Value = entidad.SegundoApellido;
+                    cmd.Parameters.Add("@Identificacion", SqlDbType.VarChar,15).Value = entidad.Identificacion;
+                    cmd.Parameters.Add("@EsCliente", SqlDbType.Bit).Value = entidad.EsCliente;
 
-                param = cmd.Parameters.Add("@SegundoNombre", SqlDbType.NVarChar, 50);
-                param.Value = entidad.SegundoNombre;
-
-                param = cmd.Parameters.Add("@PrimerApellido", SqlDbType.NVarChar, 50);
-                param.Value = entidad.PrimerApellido; 
-                
-                param = cmd.Parameters.Add("@SegundoApellido", SqlDbType.NVarChar, 50);
-                param.Value = entidad.SegundoApellido;   
-                
-                param = cmd.Parameters.Add("@EsCliente", SqlDbType.Bit);
-                param.Value = entidad.EsCliente;
-
-                param = cmd.Parameters.Add("@Identificacion", SqlDbType.Int);
-                param.Value = entidad.Identificacion;
-
-                //add the parameter to the SqlCommand object
-                cmd.Parameters.Add(param);
-                int rowsAffected =await cmd.ExecuteNonQueryAsync();
-                con.Close();
-                return (rowsAffected);
+                    int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                    con.Close();
+                    return (rowsAffected);
+                }
+                catch (Exception e)
+                {
+                    var debugger = e.Message;
+                    return e.GetHashCode();
+                }
             }
         }
 

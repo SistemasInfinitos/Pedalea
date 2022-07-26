@@ -38,5 +38,23 @@ namespace PedaleaAPI.Controllers
                 return personas;
             }
         }
+
+
+        [Route("[action]", Name = "IsertPersona")]
+        [HttpPost]
+        public async Task<int> IsertPersona(Personas entidad)
+        {
+            try
+            {
+                var data = await _repository.CrearPersona(entidad);
+
+                return data;
+            }
+            catch (EvaluateException e)
+            {
+                var debugger = e.Message;
+                return e.GetHashCode();
+            }
+        }
     }
 }
