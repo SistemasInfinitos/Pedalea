@@ -116,13 +116,13 @@
                 url: '/api/PedaleaAPI/CrearPersonas',
                 'type': 'POST',
                 data: entidad,
-                //headers: {
-                //    'Accept': 'application/json',
-                //    'Content-Type': 'application/json'
-                //},
-                //traditional: true,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                traditional: true,
                 async: true,
-                //dataType: "JSON",
+                dataType: "JSON",
                 success: function (response) {
                     debugger
                     if (response.responseClient.success) {
