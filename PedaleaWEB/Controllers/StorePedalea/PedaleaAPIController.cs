@@ -109,7 +109,7 @@ namespace PedaleaWEB.Controllers.StorePedalea
 
                 if (ModelState.IsValid)
                 {
-                    string uri = "https://localhost:7107/api/Personas/InserPersonas";// esto se debe configurar en el archivo json
+                    string uri = "https://localhost:7107/api/Personas/IsertPersona";// esto se debe configurar en el archivo json
 
                     try
                     {
