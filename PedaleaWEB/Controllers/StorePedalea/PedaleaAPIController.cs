@@ -124,7 +124,7 @@ namespace PedaleaWEB.Controllers.StorePedalea
                             if (model > 0)
                             {
                                 responseClient.Success = true;
-                                responseClient.Mensaje = "success";
+                                responseClient.Mensaje = "Transacción exitosa!";
                                 return Ok(new { model, responseClient });
                             }
                             else
