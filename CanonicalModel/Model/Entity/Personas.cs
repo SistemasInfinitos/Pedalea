@@ -15,5 +15,6 @@ namespace CanonicalModel.Model.Entity
         public string? PrimerApellido { get; set; } 
         public string? SegundoApellido { get; set; } 
         public bool? EsCliente { get; set; } 
+        public bool? EsProveedor { get; set; } 
     }
 }

@@ -5,9 +5,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 
-namespace PedaleaAPI.Repository
+namespace PedaleaAPI.Repository.Persona
 {
-    public class PedaleaESRepository : IPedaleaESRepository
+    public class PersonasESRepository: IPersonasESRepository
     {
         private readonly CultureInfo culture = new CultureInfo("is-IS");
         private readonly CultureInfo cultureFecha = new CultureInfo("en-US");
@@ -15,12 +15,12 @@ namespace PedaleaAPI.Repository
 
         //private readonly DbContextOptions<Context> _db = ContextDB.DB;
 
-        public PedaleaESRepository(IOptionsMonitor<JwtConfiguration> optionsMonitor)
+        public PersonasESRepository(IOptionsMonitor<JwtConfiguration> optionsMonitor)
         {
             _jwtConfig = optionsMonitor.CurrentValue;
         }
 
-        public async Task<int> Crear(Personas entidad)
+        public async Task<int> CrearPersona(Personas entidad)
         {
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
@@ -30,12 +30,12 @@ namespace PedaleaAPI.Repository
                     cmd.CommandType = CommandType.StoredProcedure;
                     con.Open();
 
-                    cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = entidad.PersonaID??0;
-                    cmd.Parameters.Add("@PrimerNombre", SqlDbType.VarChar,50).Value = entidad.PrimerNombre;
-                    cmd.Parameters.Add("@SegundoNombre", SqlDbType.VarChar,50).Value = entidad.SegundoNombre;
-                    cmd.Parameters.Add("@PrimerApellido", SqlDbType.VarChar,50).Value = entidad.PrimerApellido;
-                    cmd.Parameters.Add("@SegundoApellido", SqlDbType.VarChar,50).Value = entidad.SegundoApellido;
-                    cmd.Parameters.Add("@Identificacion", SqlDbType.VarChar,15).Value = entidad.Identificacion;
+                    cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = entidad.PersonaID ?? 0;
+                    cmd.Parameters.Add("@PrimerNombre", SqlDbType.VarChar, 50).Value = entidad.PrimerNombre;
+                    cmd.Parameters.Add("@SegundoNombre", SqlDbType.VarChar, 50).Value = entidad.SegundoNombre;
+                    cmd.Parameters.Add("@PrimerApellido", SqlDbType.VarChar, 50).Value = entidad.PrimerApellido;
+                    cmd.Parameters.Add("@SegundoApellido", SqlDbType.VarChar, 50).Value = entidad.SegundoApellido;
+                    cmd.Parameters.Add("@Identificacion", SqlDbType.VarChar, 15).Value = entidad.Identificacion;
                     cmd.Parameters.Add("@EsCliente", SqlDbType.Bit).Value = entidad.EsCliente;
                     cmd.Parameters.Add("@EsProveedor", SqlDbType.Bit).Value = entidad.EsProveedor;
 
@@ -51,7 +51,7 @@ namespace PedaleaAPI.Repository
             }
         }
 
-        public async Task<List<Personas>> Get()
+        public async Task<List<Personas>> GetPersonas()
         {
             List<Personas> personas = new List<Personas>();
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
@@ -70,7 +70,7 @@ namespace PedaleaAPI.Repository
                         PrimerApellido = rdr["PrimerApellido"].ToString(),
                         SegundoApellido = rdr["SegundoApellido"].ToString(),
                         EsCliente = Convert.ToBoolean(rdr["EsCliente"].ToString()),
-                        EsProveedor = Convert.ToBoolean(rdr["EsProveedor"].ToString()),
+                        EsProveedor = Convert.ToBoolean(((!string.IsNullOrWhiteSpace(rdr["EsProveedor"]?.ToString())? rdr["EsProveedor"]?.ToString() :false))),
                     };
                     personas.Add(employee);
                 }

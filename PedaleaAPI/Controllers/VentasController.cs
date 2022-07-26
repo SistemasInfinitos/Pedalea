@@ -21,42 +21,8 @@ namespace PedaleaAPI.Controllers
             _repository = new PedaleaESRepository(optionsMonitor);
         }
 
-        #region Persona
-        [Route("[action]", Name = "GetPersonas")]
-        [HttpGet]
-        public async Task<List<Personas>> GetPersonas()
-        {
-            List<Personas> personas = new List<Personas>();
-            try
-            {
-                var data = await _repository.GetPersonas();
+        #region Ventas
 
-                return data;
-            }
-            catch (EvaluateException e)
-            {
-                var debugger = e.Message;
-                return personas;
-            }
-        }
-
-
-        [Route("[action]", Name = "IsertPersona")]
-        [HttpPost]
-        public async Task<int> IsertPersona(Personas entidad)
-        {
-            try
-            {
-                var data = await _repository.CrearPersona(entidad);
-
-                return data;
-            }
-            catch (EvaluateException e)
-            {
-                var debugger = e.Message;
-                return e.GetHashCode();
-            }
-        }
         #endregion
     }
 }

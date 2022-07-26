@@ -5,8 +5,8 @@ namespace PedaleaAPI.Repository
     public interface IPedaleaESRepository
     {
 
-        Task<int> CrearPersona(Personas entidad);
+        Task<int> Crear(Personas entidad);
 
-        Task<List<Personas>> GetPersonas();
+        Task<List<Personas>> Get();
     }
 }

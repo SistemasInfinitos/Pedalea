@@ -30,7 +30,7 @@ namespace PedaleaWEB.Controllers.StorePedalea
 
                 if (ModelState.IsValid)
                 {
-                    string uri = "https://localhost:7107/api/Ventas/GetPersonas";
+                    string uri = "https://localhost:7107/api/Personas/GetPersonas"; // esto se debe configurar en el archivo json
 
                     try
                     {
@@ -91,7 +91,7 @@ namespace PedaleaWEB.Controllers.StorePedalea
 
                 if (ModelState.IsValid)
                 {
-                    string uri = "https://localhost:7107/api/Ventas/InserPersonas";
+                    string uri = "https://localhost:7107/api/Personas/InserPersonas";// esto se debe configurar en el archivo json
 
                     try
                     {
