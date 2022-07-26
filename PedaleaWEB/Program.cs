@@ -32,6 +32,17 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+//builder.Services.AddControllers()
+//    .ConfigureApiBehaviorOptions(options =>
+//    {
+//        options.SuppressConsumesConstraintForFormFileParameters = true;
+//        options.SuppressInferBindingSourcesForParameters = true;
+//        options.SuppressModelStateInvalidFilter = true;
+//        options.SuppressMapClientErrors = true;
+//        options.ClientErrorMapping[StatusCodes.Status404NotFound].Link =
+//            "https://httpstatuses.com/404";
+//    });
+
 // Según https://github.com/aspnet/AspNetCore/issues/5828
 // la configuración de la cookie se sobrescribiría si se usa la interfaz de usuario predeterminada, por lo que
 // necesitamos "post-configurar" la cookie de autenticación
@@ -108,7 +119,9 @@ app.UseAuthentication();
 
 
 app.UseAuthorization();
-
+app.MapControllers();
 app.MapControllerRoute( name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
-
+//app.MapControllers();
 app.Run();
+
+

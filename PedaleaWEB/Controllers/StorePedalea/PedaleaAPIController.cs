@@ -72,9 +72,9 @@ namespace PedaleaWEB.Controllers.StorePedalea
             return BadRequest(new { model, responseClient });
         }
 
-        [Route("[action]", Name = "CrearPersonas")]
         [HttpPost]
-        public async Task<IHttpActionResult> CrearPersonas(string entidad)
+        [Route("[action]")]   
+        public async Task<ActionResult> CrearPersonas([FromForm] Personas entidad)
         {
             var options = new JsonSerializerOptions { IncludeFields = true, PropertyNameCaseInsensitive = true };
             await HttpContext.Session.LoadAsync();
