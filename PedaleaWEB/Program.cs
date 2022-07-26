@@ -6,31 +6,31 @@ using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 builder.Services.AddOptions();
 builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection($"JwtConfiguration"));
 
-builder.Services.Configure<CookiePolicyOptions>(options =>
-{
-    // Esta lambda determina si se necesita el consentimiento del usuario para las cookies no esenciales
-    // para una solicitud dada.
-    options.CheckConsentNeeded = context => true;
-    options.MinimumSameSitePolicy = SameSiteMode.Strict;
-});
+//builder.Services.Configure<CookiePolicyOptions>(options =>
+//{
+//    // Esta lambda determina si se necesita el consentimiento del usuario para las cookies no esenciales
+//    // para una solicitud dada.
+//    options.CheckConsentNeeded = context => true;
+//    options.MinimumSameSitePolicy = SameSiteMode.Strict;
+//});
 
-builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.Cookie.Name = "InfiniteSystems.AppCookie";
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-    // configurar las cookies de la aplicación solo a través de una conexión segura:
-    // opciones.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-    options.Cookie.SameSite = SameSiteMode.Strict;
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
-    options.SlidingExpiration = true;
-});
+//builder.Services.ConfigureApplicationCookie(options =>
+//{
+//    options.Cookie.Name = "InfiniteSystems.AppCookie";
+//    options.Cookie.HttpOnly = true;
+//    options.Cookie.IsEssential = true;
+//    // configurar las cookies de la aplicación solo a través de una conexión segura:
+//    // opciones.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+//    options.Cookie.SameSite = SameSiteMode.Strict;
+//    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+//    options.SlidingExpiration = true;
+//});
 
 //builder.Services.AddControllers()
 //    .ConfigureApiBehaviorOptions(options =>
@@ -46,39 +46,20 @@ builder.Services.ConfigureApplicationCookie(options =>
 // Según https://github.com/aspnet/AspNetCore/issues/5828
 // la configuración de la cookie se sobrescribiría si se usa la interfaz de usuario predeterminada, por lo que
 // necesitamos "post-configurar" la cookie de autenticación
-builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, options =>
-{
-    options.AccessDeniedPath = "/access-denied";
-    options.LoginPath = "/login";
-    options.LogoutPath = "/logout";
-
-    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
-});
-builder.Services.AddAntiforgery();
-
-builder.Services.AddControllersWithViews(options =>
-{
-    // Slugify rutas para que podamos usar /employee/employee-details/1 en lugar de
-    // el valor predeterminado /Employee/EmployeeDetails/1
-    //
-    // Usar un transformador de parámetros de salida es una mejor opción ya que también permite
-    // la creación de rutas correctas utilizando ayudantes de vista
-    //options.Conventions.Add(new RouteTokenTransformerConvention( new SlugifyParameterTransformer()));
-
-    // Habilitar la función Antifalsificación de forma predeterminada en todas las acciones del controlador
-    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-});
-
-//builder.Services.AddRazorPages(options =>
+//builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme, options =>
 //{
-//    options.Conventions.AddAreaPageRoute("Identity", "/Account/Register", "/register");
-//    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "/login");
-//}).SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddSessionStateTempDataProvider();
+//    options.AccessDeniedPath = "/access-denied";
+//    options.LoginPath = "/login";
+//    options.LogoutPath = "/logout";
 
-builder.Services.AddAuthorization(options =>
-{
-    options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-});
+//    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+//});
+
+
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.DefaultPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+//});
 
 
 builder.Services.AddSession(options =>
@@ -105,7 +86,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseStatusCodePagesWithReExecute("/status-code", "?code={0}");
+//app.UseStatusCodePagesWithReExecute("/status-code", "?code={0}");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -118,9 +99,19 @@ app.UseSession();
 app.UseAuthentication();
 
 
-app.UseAuthorization();
-app.MapControllers();
-app.MapControllerRoute( name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
+//app.UseAuthorization();
+
+app.UseRouting();
+//app.MapDefaultControllerRoute();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    //endpoints.MapRazorPages();
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
+//app.MapControllerRoute( name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 //app.MapControllers();
 app.Run();
 

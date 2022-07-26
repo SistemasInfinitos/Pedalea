@@ -9,6 +9,10 @@ namespace WEB
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -26,9 +30,14 @@ namespace WEB
 
             app.UseAuthorization();
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                //endpoints.MapRazorPages();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
 
             app.Run();
         }

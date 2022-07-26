@@ -73,8 +73,27 @@ namespace PedaleaWEB.Controllers.StorePedalea
         }
 
         [HttpPost]
+        [Route("[action]")]
+        public string CrearPersonasA()
+        {
+            string value="hola";
+            return value;
+
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public IActionResult CrearPersonasB([FromBody] Personas value)
+        {
+
+            return Ok(value);
+
+        }
+
+
+        [HttpPost]
         [Route("[action]")]   
-        public async Task<ActionResult> CrearPersonas([FromForm] Personas entidad)
+        public async Task<IActionResult> CrearPersonas([FromBody] Personas value)
         {
             var options = new JsonSerializerOptions { IncludeFields = true, PropertyNameCaseInsensitive = true };
             await HttpContext.Session.LoadAsync();
@@ -94,7 +113,7 @@ namespace PedaleaWEB.Controllers.StorePedalea
 
                     try
                     {
-                        var json = JsonSerializer.Serialize(entidad, options);
+                        var json = JsonSerializer.Serialize(value, options);
                         var data = new StringContent(json, Encoding.UTF8, "application/json");
                         var response = await httpClient.PostAsync(uri, data);
 
