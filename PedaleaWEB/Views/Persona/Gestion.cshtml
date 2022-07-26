@@ -1,0 +1,199 @@
+﻿@{
+    ViewData["Title"] = "Gestion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card mb-3" style="margin-top:57px;">
+
+    <div class="card-header">
+        <i class="fa fa-table"></i> @ViewData["Title"] &emsp;
+        <button type="button" class="btn btn-success btn-xs align-items-xl-end" onclick="GetModalCrear('${response.model[i].personaID}')">
+            <i class="fa fa-pencil-square"></i>&nbsp;Nuevo&nbsp;&nbsp;
+        </button>
+    </div>
+
+    <div class="card-body">
+        <div class="container">
+            <div style="width:100%; margin:0 auto;">
+
+                <table id="tableDinamica" class="table table-striped table-bordered table-hover dt-responsive nowrap display compact" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th style="text-align:center">Editar</th>
+                            <th style="text-align:center">NIU</th>
+                            <th style="text-align:center">Nombres</th>
+                            <th style="text-align:center">Es Cliente</th>
+                            <th style="text-align:center">Es Proveedor</th>
+                            <th style="text-align:center">Acción</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- =================================================== RefresTokenModal ============================================================  -->
+
+@*<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">*@
+ <div class="modal fade bd-example-modal-xl" tabindex="-1" id="modalCrear" role="dialog">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Persona</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body ">
+        <div class="row col-md-12  ">
+          <input type="text" class="form-control" id="PersonaID" hidden >
+          <div class="col-md-3">
+            <label for="Identificacion" class="col-form-label">Identificacion:</label>
+            <input type="text" class="form-control" id="Identificacion">         
+          </div>
+          <div class="col-md-3">
+            <label for="PrimerNombre" class="col-form-label">Primer Nombre:</label>
+            <input class="form-control" id="PrimerNombre">
+          </div>
+          <div class="col-md-3">
+            <label for="SegundoNombre" class="col-form-label">Segundo Nombre:</label>
+            <input class="form-control" id="SegundoNombre">
+          </div> 
+          <div class="col-md-3">
+            <label for="PrimerApellido" class="col-form-label">Primer Apellido:</label>
+            <input class="form-control" id="PrimerApellido">
+          </div>         
+          <div class="col-md-3">
+            <label for="SegundoApellido" class="col-form-label">Segundo Apellido:</label>
+            <input class="form-control" id="SegundoApellido">
+          </div>  
+          <div class="col-md-3">
+            <label for="EsCliente" class="col-form-label">Es Cliente:</label>
+            <input type="checkbox" class="form-check checkbox" id="EsCliente">
+          </div>   
+          <div class="col-md-3">
+            <label for="EsProveedor" class="col-form-label">Es Proveedor:</label>
+            <input type="checkbox" class="form-check checkbox" id="EsProveedor">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
+        <button type="button" class="btn btn-primary" id="btnCrear">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    var PersonaID = 0;
+    var update = false;
+    $(document).ready(function () {
+        GetPersonas();
+    })
+
+    function GetModalCrear() 
+    {
+        $("#modalCrear").modal("show")
+    }
+
+     $("#btnCrear").click(function () {
+          PersonaID = parseInt($("#PersonaID").val());
+
+         if (PersonaID > 0) { } else {PersonaID=0 }
+        var data = {
+            PersonaID: PersonaID,
+            Identificacion: $("#Identificacion").val(),
+            PrimerNombre: $("#PrimerNombre").val(),
+            SegundoNombre: $("#SegundoNombre").val(),
+            PrimerApellido: $("#PrimerApellido").val(),
+            SegundoApellido: $("#SegundoApellido").val(),
+            EsCliente: $("#EsCliente").prop("checked"),
+            EsProveedor: $("#EsProveedor").prop("checked"),
+        }
+        debugger
+        var value = JSON.stringify(data);
+        if (update == false) {
+            $.ajax({
+                url: '/api/PersonaAPI/CrearPersonas',
+                method: 'Post',
+                data: value,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                traditional: true,
+                async: true,
+                dataType: "JSON",
+                success: function (response) {
+                    debugger
+                    if (response.responseClient.success) {
+                        toastr.success(response.responseClient.mensaje);
+                    } else {
+                        toastr.warning(response.responseClient.mensaje);
+                    }
+                },
+                complete: function () {
+
+                },
+                error: function (data) {debugger
+                   toastr.error("No pudimos completar tu solicitud!");
+                }
+            });
+        }
+        else if (PersonaID != "" && PersonaID != undefined && PersonaID != NaN) { debugger
+            
+        }
+        else {
+            toastr.warning("selecciona una accion!");
+        }
+    });
+
+    function GetPersonas() {
+        $.ajax({
+            url: '/api/PersonaAPI/GetPersonas',
+            method: 'GET',
+            data: {},
+            traditional: true,
+            async: true,
+            dataType: 'JSON',
+            success: function (response) {
+                $('#tableDinamica').DataTable().clear();
+                $('#tableDinamica').DataTable().destroy();
+                $('#tableDinamica').find('tbody').empty();
+                if (response.responseClient.success==true) {
+                    for (var i = 0; i < response.model.length; i++) {
+                        $('#tableDinamica').find('tbody').append(
+                            `<tr id="">
+                                <td align="right">
+                                    <button type="button" class="btn btn-success btn-xs" onclick="GetModalCrear('${response.model[i].personaID}')">
+                                        <i class="fa fa-pencil-square"></i>&nbsp;Editar&nbsp;&nbsp;
+                                    </button>
+                                </td>
+                                <td align="right">${ response.model[i].identificacion}</td>
+                                <td align="right">${ response.model[i].primerNombre + " " +response.model[i].primerApellido}</td>
+                                <td align="right">${ response.model[i].esCliente}</td>
+                                <td align="right">${ response.model[i].esProveedor}</td>
+                                <td align="right">
+                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarPersona('${response.model[i].personaID}')">
+                                        <i class="fa fa-trash"></i>&nbsp;Borrar&nbsp;&nbsp;
+                                    </button>
+                                </td>
+                            </tr >`);
+                    }
+                } else {
+                    toastr.error(response.mensaje, "Error");
+                };
+            },
+            error: function (jQXHR) {
+                toastr.error('No pudimos procesar su Solicitud!')
+            },
+            complete: function () {
+                $('#tableDinamica').DataTable({
+                    dom: "<''<'col-md-6'l><'col-md-6'f>>t<'col-md-4'i><'col-md-8 text-right'pB>",
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: []
+                });
+            }
+        });
+    }
+
+</script>
+
