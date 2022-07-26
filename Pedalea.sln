@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{8CE364C8-879
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PedaleaAPI", "PedaleaAPI\PedaleaAPI.csproj", "{3A751962-2660-43C2-9099-D99BB5EBF33D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{E959CABD-D2E5-4BF1-A1A9-DECCA8497ABE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CanonicalModel", "CanonicalModel\CanonicalModel.csproj", "{5589EA46-0327-4C7F-A73E-5562B14CD5BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +27,17 @@ Global
 		{3A751962-2660-43C2-9099-D99BB5EBF33D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A751962-2660-43C2-9099-D99BB5EBF33D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A751962-2660-43C2-9099-D99BB5EBF33D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5589EA46-0327-4C7F-A73E-5562B14CD5BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5589EA46-0327-4C7F-A73E-5562B14CD5BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5589EA46-0327-4C7F-A73E-5562B14CD5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5589EA46-0327-4C7F-A73E-5562B14CD5BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3A751962-2660-43C2-9099-D99BB5EBF33D} = {8CE364C8-8792-4CCF-AEE6-BE11891BF768}
+		{5589EA46-0327-4C7F-A73E-5562B14CD5BC} = {E959CABD-D2E5-4BF1-A1A9-DECCA8497ABE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FDBBDCBA-53BF-4057-A674-8E565FD776B1}
