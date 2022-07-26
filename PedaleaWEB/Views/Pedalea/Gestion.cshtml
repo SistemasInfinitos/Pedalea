@@ -101,20 +101,20 @@
          if (PersonaID > 0) { } else {PersonaID=0 }
         var data = {
             PersonaID: PersonaID,
+            Identificacion: $("#Identificacion").val(),
             PrimerNombre: $("#PrimerNombre").val(),
             SegundoNombre: $("#SegundoNombre").val(),
             PrimerApellido: $("#PrimerApellido").val(),
             SegundoApellido: $("#SegundoApellido").val(),
             EsCliente: $("#EsCliente").prop("checked"),
             EsProveedor: $("#EsProveedor").prop("checked"),
-            Identificacion: $("#Identificacion").val(),
         }
         debugger
         var entidad = JSON.stringify(data);
         if (update == false) {
             $.ajax({
                 url: '/api/PedaleaAPI/CrearPersonas',
-                'type': 'POST',
+                method: 'Post',
                 data: entidad,
                 headers: {
                     'Accept': 'application/json',
@@ -140,32 +140,7 @@
             });
         }
         else if (PersonaID != "" && PersonaID != undefined && PersonaID != NaN) { debugger
-            $.ajax({
-                url: '/api/PedaleaAPI/GetPersonas',
-                'type': 'PUT',
-                data: entidad,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                traditional: true,
-                async: true,
-                dataType: "JSON",
-                success: function (response) {
-                    debugger
-                    if (response.responseClient.success) {
-                        toastr.success(response.responseClient.mensaje);
-                    } else {
-                        toastr.warning(response.responseClient.mensaje);
-                    }
-                },
-                complete: function () {
-
-                },
-                error: function (data) {
-                    toastr.error("No pudimos completar tu solicitud!");
-                }
-            });
+            
         }
         else {
             toastr.warning("selecciona una accion!");
