@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewData["Title"] = "Gestion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul class="navbar-nav navbar-sidenav accordion text-white-50 ml-auto" id="navbarSidenavAccordion">
+
+</ul>
+
+<script>
+
+
+    $(document).ready(function () {
+        GetPersonas();
+    });
+
+    function GetPersonas()
+    {
+        $('#LoadingInfinito').show();
+        $.ajax(
+        {
+            url: '/Pedalea/GetPersonas',
+            method: 'GET',
+            data: {},
+            traditional: true,
+            async: true,
+            dataType: 'JSON',
+            success: function (Menu)
+            {
+                debugger
+                if (Menu.responseClient.success) {
+                    $.each(Menu.model, function (index, value) {
+                        //$(`ul li #opLevel${value.id}`).empty();
+                        var html =
+                            $(`<li class="nav-item" id="modulo${value.PersonaID}" onclick="GetMenusModulos(${value.PersonaID})">
+                                <a data-bs-toggle="collapse" href="#${value.PrimerNombre}" class="nav-link text-dark" aria-controls="${value.PrimerNombre}" role="button" aria-expanded="false">
+                                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                        <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                                    </div>
+                                    <h4 class="nav-link-text text-sm ms-1">${value.detalle}</h4>
+                                </a>
+                                <div class="collapse" id="${value.PrimerNombre}">
+                                    <ul class="navbar-nav" id="navbarNav${value.PersonaID}">
+
+                                    </ul>
+                                </div>
+                            </li>
+                            `);
+                        $('#navbarSidenavAccordion').append(html);
+                    })
+                }
+                else
+                {
+                    debugger
+                    var mensaje = "";
+                    $(Menu.responseClient.errors).each(function (i) {
+                        mensaje += Menu.responseClient.errors[i] + "<br>";
+                    });
+                    toastr.error(mensaje);
+                    if (Menu.responseClient.session == false) {
+                        window.location.href = "/Home/SignIn";
+                        //setTimeout(function () { window.location.href = "/Home/SignIn"; }, 2000);
+                    }
+                }
+            },
+            complete: function () { $('#LoadingInfinito').hide(); },
+            error: function (data) {
+                debugger
+                if (data.status == 401) {
+                    window.location.href = "/Home/SignIn";
+                }
+            }
+        })
+    }
+</script>

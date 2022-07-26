@@ -25,12 +25,12 @@ namespace PedaleaAPI.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<IList<Personas>> GetPersonas()
+        public async Task<List<Personas>> GetPersonas()
         {
             List<Personas> personas = new List<Personas>();
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("spGetPersonas", con);
+                SqlCommand cmd = new SqlCommand("SpGetPersonas", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
@@ -43,7 +43,7 @@ namespace PedaleaAPI.Repository
                         SegundoNombre = rdr["SegundoNombre"].ToString(),
                         PrimerApellido = rdr["PrimerApellido"].ToString(),
                         SegundoApellido = rdr["SegundoApellido"].ToString(),
-                        //EsCliente = Convert.ToBoolean(rdr["EsCliente"]),
+                        EsCliente = Convert.ToBoolean(rdr["EsCliente"].ToString()),
 
                     };
                     personas.Add(employee);

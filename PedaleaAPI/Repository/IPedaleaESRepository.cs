@@ -7,6 +7,6 @@ namespace PedaleaAPI.Repository
 
         Task<Personas> CrearPersona(Personas entidad);
 
-        Task<IList<Personas>> GetPersonas();
+        Task<List<Personas>> GetPersonas();
     }
 }
