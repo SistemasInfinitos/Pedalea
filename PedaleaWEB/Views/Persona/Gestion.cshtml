@@ -186,6 +186,7 @@
                 toastr.error('No pudimos procesar su Solicitud!')
             },
             complete: function () {
+                $("#modalCrear").modal("hide")
                 $('#tableDinamica').DataTable({
                     dom: "<''<'col-md-6'l><'col-md-6'f>>t<'col-md-4'i><'col-md-8 text-right'pB>",
                     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
