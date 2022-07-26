@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json;
 
-namespace PedaleaWEB.Controllers.StorePedalea
+namespace PedaleaWEB.Controllers.Persona
 {
-    public class PedaleaController : Controller
+    public class PersonaController : Controller
     {
         [HttpGet]
         public IActionResult Gestion()

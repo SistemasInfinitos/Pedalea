@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using System.Text.Json;
 
-namespace PedaleaWEB.Controllers.StorePedalea
+namespace PedaleaWEB.Controllers.Persona
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PedaleaAPIController : ControllerBase
+    public class PersonaAPIController : ControllerBase
     {
         [Route("[action]", Name = "GetPersonas")]
         [HttpGet]
