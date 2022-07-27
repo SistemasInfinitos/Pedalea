@@ -94,15 +94,15 @@
                     </div>
                     <div class="col-md-2">
                         <label for="Cantidad" class="col-form-label"><span style="color:red">*</span>Cantidad:</label>
-                        <input type="text" class="form-control" id="Cantidad" onkeyup="return miles(this.id)">
+                        <input type="text" class="form-control" value="1" id="Cantidad" onkeyup="return miles(this.id)">
                     </div>
                     <div class="col-md-2">
                         <label for="ValorUnitario" class="col-form-label"><span style="color:red">*</span>Valor:</label>
-                        <input type="text" class="form-control" id="ValorUnitario" onkeyup="return miles(this.id)">
+                        <input type="text" class="form-control"value="0" id="ValorUnitario" onkeyup="return miles(this.id)">
                     </div>
                     <div class="col-md-2">
-                        <label for="PorcentajeDescuento" class="col-form-label"><span style="color:red">*</span>Valor:</label>
-                        <input type="text" class="form-control" id="PorcentajeDescuento" onkeyup="return miles(this.id)">
+                        <label for="PorcentajeDescuento" class="col-form-label">Descuento:</label>
+                        <input type="text" class="form-control" value="0" id="PorcentajeDescuento" onkeyup="return miles(this.id)">
                     </div>
                     <div class="col-md-2">
                         <label for="Color" class="col-form-label">Color:</label>
@@ -114,7 +114,7 @@
                     </div>
                     <div class="col-md-2">
                         <br />
-                        <button type="button" class="btn btn-primary" id="btnAddArray"><i class="fa fa-cart-plus" aria-hidden="true"></i> Agregar</button>
+                        <button type="button" class="btn btn-primary" id="btnAddArray" onclick="AddArray()"><i class="fa fa-cart-plus" aria-hidden="true"></i> Agregar</button>
                     </div>
             </div>
             <hr />
@@ -125,10 +125,11 @@
                             <thead>
                                 <tr>
                                     <th style="text-align:center">ID</th>
+                                    <th style="text-align:center">Producto</th>
                                     <th style="text-align:center">Valor Unitario $</th>
+                                    <th style="text-align:center">Cantidad</th>
                                     <th style="text-align:center">Descuento %</th>
                                     <th style="text-align:center">Neto $</th>
-                                    <th style="text-align:center">Sub Total $</th>
                                     <th style="text-align:center">Acción</th>
                                 </tr>
                             </thead>
@@ -407,22 +408,51 @@
         });
     }
 
-    function addArray() {
+    function AddArray() {
         debugger
         var ProductoID = $("#ProductoID").val();
         var ProductoTex = $("#ProductoID option:selected").text();;
-        var ValorUnitario = $("#ValorUnitario").val();
-        var Cantidad = $("#Cantidad").val();
-
+        var ValorUnitario = parseFloat(quitCommas($("#ValorUnitario").val()));
+        var Cantidad = parseFloat(quitCommas($("#Cantidad").val()));
+        var PorcentajeDescuento = parseFloat(quitCommas($("#PorcentajeDescuento").val()));
+        var Neto = ((Cantidad)*(ValorUnitario-((ValorUnitario*PorcentajeDescuento)/100)));
          var objIndex = listDetallePedidos.findIndex((obj => obj.ProductoID == ProductoID));
         //Update object's goles property.
         if (objIndex >=0) {
             listDetallePedidos[objIndex].Cantidad += Cantidad;
+            listDetallePedidos[objIndex].ValorUnitario = ValorUnitario;
+            listDetallePedidos[objIndex].PorcentajeDescuento = ValorUnitario;
+            listDetallePedidos[objIndex].Neto = Neto;
         }
         else {
-            b = { ProductoID: ProductoID, ValorUnitario: ValorUnitario, Cantidad: Cantidad,Producto:ProductoTex };
+            b = { ProductoID: ProductoID,Producto:ProductoTex, ValorUnitario: ValorUnitario, Cantidad: Cantidad,PorcentajeDescuento:PorcentajeDescuento,Neto:Neto };
             listDetallePedidos.push(b);
         }
+        debugger
+        PrintTableArray();
     }
 
+    function PrintTableArray() {
+        var Total = 0;
+        var Descuento = 0;
+        $('#tableArray').DataTable().clear();
+        $('#tableArray').DataTable().destroy();
+        $('#tableArray').find('tbody').empty();
+        for (var i = 0; i < listDetallePedidos.length; i++) {
+            $('#tableArray').find('tbody').append(
+                `<tr id="">
+                    <td align="center">${listDetallePedidos[i].ProductoID}</td>
+                    <td align="center">${listDetallePedidos[i].Producto}</td>
+                    <td align="center">${listDetallePedidos[i].ValorUnitario}</td>
+                    <td align="center">${listDetallePedidos[i].Cantidad}</td>
+                    <td align="center">${listDetallePedidos[i].PorcentajeDescuento}</td>
+                    <td align="center">${listDetallePedidos[i].Neto}</td>
+                    <td align="center">
+                        <button type="button" class="btn btn-warning btn-xs" onclick="Quitar('${listDetallePedidos[i].ProductoID}')">
+                            <i class="fa fa-trash"></i>&nbsp;Quitar&nbsp;&nbsp;
+                        </button>
+                    </td>
+            </tr >`);
+        }
+    }
 </script>
