@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "Gestion";
+    ViewData["Title"] = "Tienda Pedalea";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -42,31 +42,35 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Persona</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Tienda</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body ">
         <div class="row col-md-12  ">
           <input type="text" class="form-control" id="PersonaID" hidden >
           <div class="col-md-3">
-            <label for="Identificacion" class="col-form-label">Identificacion:</label>
+            <label for="Identificacion" class="col-form-label"><span style="color:red">*</span>Identificacion:</label>
             <input type="text" class="form-control" id="Identificacion">         
           </div>
           <div class="col-md-3">
             <label for="PrimerNombre" class="col-form-label">Primer Nombre:</label>
-            <input class="form-control" id="PrimerNombre">
+            <input class="form-control" id="PrimerNombre" placeholder="Opcional">
           </div>
           <div class="col-md-3">
             <label for="SegundoNombre" class="col-form-label">Segundo Nombre:</label>
-            <input class="form-control" id="SegundoNombre">
+            <input class="form-control" id="SegundoNombre" placeholder="Opcional">
           </div> 
           <div class="col-md-3">
             <label for="PrimerApellido" class="col-form-label">Primer Apellido:</label>
-            <input class="form-control" id="PrimerApellido">
+            <input class="form-control" id="PrimerApellido" placeholder="Opcional">
           </div>         
           <div class="col-md-3">
             <label for="SegundoApellido" class="col-form-label">Segundo Apellido:</label>
-            <input class="form-control" id="SegundoApellido">
+            <input class="form-control" id="SegundoApellido" placeholder="Opcional">
+          </div> 
+          <div class="col-md-3">
+            <label for="Direccion" class="col-form-label"><span style="color:red">*</span> Direccion Entrega:</label>
+            <input class="form-control" id="Direccion">
           </div>  
           <div class="col-md-3">
             <label for="EsCliente" class="col-form-label">Es Cliente:</label>
@@ -76,12 +80,33 @@
             <label for="EsProveedor" class="col-form-label">Es Proveedor:</label>
             <input type="checkbox" class="form-check checkbox" id="EsProveedor">
           </div>
-          <div class="col-md-3">
-            <label for="ProductoID" class="col-form-label">Producto ID:</label>
-            <select class="form-select" id="ProductoID">
-
-            </select>
-          </div>
+          <br />    
+          <hr />
+          <div class="row col-md-12">
+              <div class="col-md-3">
+                <label for="ProductoID" class="col-form-label"><span style="color:red">*</span>Producto ID:</label>
+                <select class="form-select" id="ProductoID"></select>
+              </div>
+              <div class="col-md-2">
+                <label for="Cantidad" class="col-form-label"><span style="color:red">*</span>Cantidad:</label>
+                <input type="text" class="form-control" id="Cantidad" onkeyup="return miles(this.id)">
+              </div>
+              <div class="col-md-2">
+                <label for="Valor" class="col-form-label"><span style="color:red">*</span>Valor:</label>
+                <input type="text" class="form-control" id="Valor" onkeyup="return miles(this.id)">
+              </div>
+              <div class="col-md-2">
+                <label for="Color" class="col-form-label">Color:</label>
+                <input type="text" class="form-control" id="Color" readonly>
+              </div> 
+              <div class="col-md-2">
+                <label for="Talla" class="col-form-label">Talla:</label>
+                <input type="text" class="form-control" id="Talla" readonly>
+              </div>
+              <div class="col-md-2">
+                    <button type="button" class="btn btn-primary" id="btnAddArray"><i class="fa fa-cart-plus" aria-hidden="true"></i> Agregar</button>
+              </div>
+        </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -95,6 +120,7 @@
     var DocumentoID = 0;
     var update = false;
     $(document).ready(function () {
+       // $("#ProductoID").select2();
         GetDocumento();
         SelectLisProductos();
     })
@@ -104,7 +130,7 @@
         $("#modalCrear").modal("show")
     }
 
-     $("#btnCrear").click(function () {
+    $("#btnCrear").click(function () {
           DocumentoID = parseInt($("#DocumentoID").val());
 
          if (DocumentoID > 0) { } else {DocumentoID=0 }
@@ -258,16 +284,27 @@
         }
     }
 
-    $("ProductoID").change(function() {
-        var ProductoID = $("#ProductoID").val();
-        if (ProductoID!=null && ProductoID!=undefined && ProductoID!="") {SelectLisProductos();}
+    $("#ProductoID").keyup(function(e) {
         
+        var ProductoID = $("#ProductoID").val();
+        if (ProductoID!=null && ProductoID!=undefined && ProductoID!="") 
+        {
+            SelectLisProductos();
+        }      
+    });    
+    $("#ProductoID").change(function(e) {
+        
+        var ProductoID = $("#ProductoID").val();
+        if (ProductoID!=null && ProductoID!=undefined && ProductoID!="") 
+        {
+            SelectLisProductosById();
+        }      
     });
 
     function SelectLisProductos() {
         var ProductoID = $("#ProductoID").val();
-        if (ProductoID==null || ProductoID==undefined) {ProductoID="a" }
-        debugger
+        if (ProductoID==null || ProductoID==undefined) {ProductoID="0" }
+        
         $.ajax({
             url: `/api/PedaleaAPI/GetProductoByName?name=${ProductoID}`,
             method: 'get',
@@ -281,7 +318,8 @@
             },
             success: function (response) {
                 $('#ProductoID').empty();
-                debugger
+                
+                
                 if (response.responseClient.success==true) {
                     if (response.model.length>0) {
                          $(response.model).each(function (i) {
@@ -291,19 +329,51 @@
                         }));
                     });
                     }
-                    //if (idTemporada != "") {
-                    //    $("#idTemporada").val(idTemporada).trigger('change.select2');
-                    //}
                 } else {
                     toastr.warning(response.responseClient.mensaje);
                 }
             },
-            error: function (data) {debugger
+            error: function (data) {
                 toastr.error("No pudimos completar tu solicitud!");
             }
         });
     }
 
-
+    function SelectLisProductosById() {
+        var ProductoID = $("#ProductoID").val();
+        var name = "0";
+        if (ProductoID==null || ProductoID==undefined|| ProductoID=="") {ProductoID=0 }
+        ProductoID = parseInt(ProductoID);
+        
+        $.ajax({
+            url: `/api/PedaleaAPI/GetProductoByName?name=${name}&ProductoID=${ProductoID}`,
+            method: 'get',
+            traditional: true,
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                'Authorization': 'Bearer '
+                    + localStorage.getItem("accessToken")
+            },
+            success: function (response) {
+                debugger               
+                if (response.responseClient.success==true) {
+                    if (response.model.length>0) {
+                         $(response.model).each(function (i) {
+                             $('#Valor').val(addCommas(response.model[i].valor));
+                             $('#Color').val(response.model[i].color);
+                             $('#Talla').val(response.model[i].talla);
+                    });
+                    }
+                } else {
+                    toastr.warning(response.responseClient.mensaje);
+                }
+            },
+            error: function (data) {
+                toastr.error("No pudimos completar tu solicitud!");
+            }
+        });
+    }
 
 </script>

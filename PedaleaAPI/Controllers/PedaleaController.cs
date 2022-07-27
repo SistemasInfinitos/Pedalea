@@ -80,12 +80,12 @@ namespace PedaleaAPI.Controllers
 
         [Route("[action]", Name = "GetProductoByName")]
         [HttpGet]
-        public async Task<List<Productos>> GetProductoByName(string name)
+        public async Task<List<Productos>> GetProductoByName(string name, int? ProductoID)
         {
             List<Productos> personas = new List<Productos>();
             try
             {
-                personas = await _repository.GetProductosByName(name);
+                personas = await _repository.GetProductosByName(name,ProductoID);
 
                 return personas;
             }

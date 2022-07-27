@@ -138,8 +138,16 @@ namespace PedaleaAPI.Repository.Pedalea
             }
         }
 
-        public async Task<List<Productos>> GetProductosByName(string name)
+        public async Task<List<Productos>> GetProductosByName(string name,int? ProductoID)
         {
+            if (name=="0")
+            {
+                name = "";
+            }
+            if (ProductoID==null)
+            {
+                ProductoID = 0;
+            }
             List<Productos> lista = new();
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
@@ -148,6 +156,7 @@ namespace PedaleaAPI.Repository.Pedalea
                     SqlCommand cmd = new SqlCommand("SpGetProductosByName", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = name;
+                    cmd.Parameters.Add("@ProductoID", SqlDbType.Int).Value = ProductoID;
                     con.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
                     while (await rdr.ReadAsync())

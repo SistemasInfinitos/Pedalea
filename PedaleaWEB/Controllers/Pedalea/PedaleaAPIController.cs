@@ -140,7 +140,7 @@ namespace PedaleaWEB.Controllers.Pedalea
         
         [Route("[action]", Name = "GetProductoByName")]
         [HttpGet]
-        public async Task<IActionResult> GetProductoByName(string name)
+        public async Task<IActionResult> GetProductoByName(string name, int? ProductoID)
         {
             var options = new JsonSerializerOptions { IncludeFields = true, PropertyNameCaseInsensitive = true };
             await HttpContext.Session.LoadAsync();
@@ -156,7 +156,7 @@ namespace PedaleaWEB.Controllers.Pedalea
 
                 if (ModelState.IsValid)
                 {
-                    string uri = $"https://localhost:7107/api/Pedalea/GetProductoByName?name={name}"; // esto se debe configurar en el archivo json
+                    string uri = $"https://localhost:7107/api/Pedalea/GetProductoByName?name={name}&ProductoID={ProductoID}"; // esto se debe configurar en el archivo json
 
                     try
                     {
