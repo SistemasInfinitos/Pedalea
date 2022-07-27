@@ -12,6 +12,20 @@ namespace PedaleaAPI.Repository.Persona
         Task<int> CrearPersona(Personas entidad);
 
         /// <summary>
+        /// Actualiza una persona
+        /// </summary>
+        /// <param name="entidad"></param>
+        /// <returns></returns>
+        Task<int> ActualizarPersona(Personas entidad);
+
+        /// <summary>
+        /// Borra una persona
+        /// </summary>
+        /// <param name="PersonaID"></param>
+        /// <returns></returns>
+        Task<int> BorrarPersona(int PersonaID);
+
+        /// <summary>
         /// obtien todas la personas
         /// </summary>
         /// <returns></returns>

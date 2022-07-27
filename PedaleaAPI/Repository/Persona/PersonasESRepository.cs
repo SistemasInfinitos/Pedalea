@@ -20,6 +20,61 @@ namespace PedaleaAPI.Repository.Persona
             _jwtConfig = optionsMonitor.CurrentValue;
         }
 
+        public async Task<int> ActualizarPersona(Personas entidad)
+        {
+            using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SpUpdatePersona", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+
+                    cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = entidad.PersonaID ?? 0;
+                    cmd.Parameters.Add("@PrimerNombre", SqlDbType.VarChar, 50).Value = entidad.PrimerNombre;
+                    cmd.Parameters.Add("@SegundoNombre", SqlDbType.VarChar, 50).Value = entidad.SegundoNombre;
+                    cmd.Parameters.Add("@PrimerApellido", SqlDbType.VarChar, 50).Value = entidad.PrimerApellido;
+                    cmd.Parameters.Add("@SegundoApellido", SqlDbType.VarChar, 50).Value = entidad.SegundoApellido;
+                    cmd.Parameters.Add("@Identificacion", SqlDbType.VarChar, 15).Value = entidad.Identificacion;
+                    cmd.Parameters.Add("@EsCliente", SqlDbType.Bit).Value = entidad.EsCliente;
+                    cmd.Parameters.Add("@EsProveedor", SqlDbType.Bit).Value = entidad.EsProveedor;
+
+                    int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                    con.Close();
+                    return (rowsAffected);
+                }
+                catch (Exception e)
+                {
+                    var debugger = e.Message;
+                    return e.GetHashCode();
+                }
+            }
+        }
+
+        public async Task<int> BorrarPersona(int PersonaID)
+        {
+            using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SpDeletePersona", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+
+                    cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = PersonaID;
+
+                    int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                    con.Close();
+                    return (rowsAffected);
+                }
+                catch (Exception e)
+                {
+                    var debugger = e.Message;
+                    return e.GetHashCode();
+                }
+            }
+        }
+
         public async Task<int> CrearPersona(Personas entidad)
         {
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))

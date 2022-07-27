@@ -76,6 +76,13 @@ CREATE TABLE [dbo].[TipoDocumentos](
 --alter table Personas add Identificacion varchar(15)null
 --alter table Documentos add Direccion varchar(150)null
 go
+create procedure SpGetPersonasById
+@PersonaID int
+as
+begin 
+ select * from Personas where PersonaID=@PersonaID
+end
+
 create procedure SpGetPersonas
 as
 begin 
@@ -137,16 +144,25 @@ else
 end
 
 GO
-create procedure SpDeletePersona
+CREATE procedure SpDeletePersona
 @PersonaID int
 as
 begin 
---declare @id int =1--prueba 
+--declare @PersonaID int
+--set @PersonaID =12
+declare @existe int
+declare @existeUsado int
+set @existe= (select COUNT(*)cantidad from Personas where PersonaID=@PersonaID)
+set @existeUsado= (select COUNT(*)cantidad from Documentos where PersonaIDCliente!=@PersonaID and PersonaIDVendedor!=@PersonaID)
+
 if EXISTS(select COUNT(*)cantidad from Personas where PersonaID=@PersonaID)
+	begin
+	if NOT EXISTS(select COUNT(*)cantidad from Documentos where PersonaIDCliente=@PersonaID OR PersonaIDVendedor=@PersonaID)
 	begin
 	delete Personas where PersonaID=@PersonaID 
 	select respuesta=@@ROWCOUNT; 
-	end
+	end 
+	END
 else 
 	select respuesta=@@ROWCOUNT
 end
@@ -154,4 +170,4 @@ end
 GO
 
 
-select * from Personas
+select * from  Documentos
