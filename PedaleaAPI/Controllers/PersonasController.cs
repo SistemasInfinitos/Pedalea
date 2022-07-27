@@ -78,6 +78,40 @@ namespace PedaleaAPI.Controllers
             }
         }
 
+        [Route("[action]", Name = "UpdatePersona")]
+        [HttpPut]
+        public async Task<int> UpdatePersona(Personas entidad)
+        {
+            try
+            {
+                var data = await _repository.ActualizarPersona(entidad);
+
+                return data;
+            }
+            catch (EvaluateException e)
+            {
+                var debugger = e.Message;
+                return e.GetHashCode();
+            }
+        }
+
+        [Route("[action]", Name = "DeletePersona")]
+        [HttpPut]
+        public async Task<int> DeletePersona(int PersonaID)
+        {
+            try
+            {
+                var data = await _repository.BorrarPersona(PersonaID);
+
+                return data;
+            }
+            catch (EvaluateException e)
+            {
+                var debugger = e.Message;
+                return e.GetHashCode();
+            }
+        }
+
         #endregion
     }
 }
