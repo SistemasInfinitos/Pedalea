@@ -21,10 +21,13 @@
                     <thead>
                         <tr>
                             <th style="text-align:center">Editar</th>
-                            <th style="text-align:center">NIU</th>
-                            <th style="text-align:center">Nombres</th>
-                            <th style="text-align:center">Es Cliente</th>
-                            <th style="text-align:center">Es Proveedor</th>
+                            <th style="text-align:center">ID</th>
+                            <th style="text-align:center">Cliente</th>
+                            <th style="text-align:center">Vendedor</th>
+                            <th style="text-align:center">Tipo Doc</th>
+                            <th style="text-align:center">Total</th>
+                            <th style="text-align:center">Direccion</th>
+                            <th style="text-align:center">Fecha</th>
                             <th style="text-align:center">Acción</th>
                         </tr>
                     </thead>
@@ -35,7 +38,6 @@
 </div>
     <!-- =================================================== RefresTokenModal ============================================================  -->
 
-@*<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">*@
  <div class="modal fade bd-example-modal-xl" tabindex="-1" id="modalCrear" role="dialog">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
@@ -149,7 +151,7 @@
 
     function GetPersonas() {
         $.ajax({
-            url: '/api/PedaleaAPI/GetPersonas',
+            url: '/api/PedaleaAPI/GetDocumentos',
             method: 'GET',
             data: {},
             traditional: true,
@@ -159,21 +161,24 @@
                 $('#tableDinamica').DataTable().clear();
                 $('#tableDinamica').DataTable().destroy();
                 $('#tableDinamica').find('tbody').empty();
-                if (response.responseClient.success==true) {
+                if (response.responseClient.success==true) {debugger
                     for (var i = 0; i < response.model.length; i++) {
                         $('#tableDinamica').find('tbody').append(
                             `<tr id="">
                                 <td align="right">
-                                    <button type="button" class="btn btn-success btn-xs" onclick="GetModalCrear('${response.model[i].personaID}')">
+                                    <button type="button" class="btn btn-success btn-xs" onclick="GetModalCrear('${response.model[i].documentoID}')">
                                         <i class="fa fa-pencil-square"></i>&nbsp;Editar&nbsp;&nbsp;
                                     </button>
                                 </td>
-                                <td align="right">${ response.model[i].identificacion}</td>
-                                <td align="right">${ response.model[i].primerNombre + " " +response.model[i].primerApellido}</td>
-                                <td align="right">${ response.model[i].esCliente}</td>
-                                <td align="right">${ response.model[i].esProveedor}</td>
+                                <td align="right">${ response.model[i].documentoID}</td>
+                                <td align="right">${ response.model[i].personaIDCliente }</td>
+                                <td align="right">${ response.model[i].personaIDVendedor}</td>
+                                <td align="right">${ response.model[i].tipoDocumentoID}</td>
+                                <td align="right">${ response.model[i].valorTotal}</td>
+                                <td align="right">${ response.model[i].direccion}</td>
+                                <td align="right">${ response.model[i].fechaCreacion}</td>
                                 <td align="right">
-                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarPersona('${response.model[i].personaID}')">
+                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarDocumento('${response.model[i].documentoID}')">
                                         <i class="fa fa-trash"></i>&nbsp;Borrar&nbsp;&nbsp;
                                     </button>
                                 </td>

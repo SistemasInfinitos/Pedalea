@@ -51,26 +51,32 @@ namespace PedaleaAPI.Repository.Pedalea
             List<Documentos> lista = new List<Documentos>();
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand("SpGetPersonas", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                con.Open();
-                SqlDataReader rdr = cmd.ExecuteReader();
-                while (await rdr.ReadAsync())
+                try
                 {
-                    var data = new Documentos()
+                    SqlCommand cmd = new SqlCommand("SpGetDocumentos", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (await rdr.ReadAsync())
                     {
-                        DocumentoID = Convert.ToInt32(rdr["DocumentoID"]),
-                        PersonaIDCliente = Convert.ToInt32(rdr["PersonaIDCliente"]),
-                        PersonaIDVendedor = Convert.ToInt32(rdr["PersonaIDVendedor"]),
-                        TipoDocumentoID = Convert.ToInt32(rdr["TipoDocumentoID"]),
-                        ValorTotal = Convert.ToDecimal(rdr["ValorTotal"]),
-                        FechaCreacion = Convert.ToDateTime(rdr["FechaCreacion"]),
-                        Direccion = rdr["Direccion"].ToString(),
-
-                    };
-                    lista.Add(data);
+                        var data = new Documentos()
+                        {
+                            DocumentoID = Convert.ToInt32(rdr["DocumentoID"]),
+                            PersonaIDCliente = Convert.ToInt32(rdr["PersonaIDCliente"]),
+                            PersonaIDVendedor = Convert.ToInt32(rdr["PersonaIDVendedor"]),
+                            TipoDocumentoID = Convert.ToInt32(rdr["TipoDocumentoID"]),
+                            ValorTotal = Convert.ToDecimal(rdr["ValorTotal"]),
+                            FechaCreacion = Convert.ToDateTime(rdr["FechaCreacion"]),
+                            Direccion = rdr["Direccion"].ToString(),
+                        };
+                        lista.Add(data);
+                    }
+                    con.Close();
                 }
-                con.Close();
+                catch (Exception e)
+                {
+                    return lista;
+                }
                 return lista;
             }
         }
