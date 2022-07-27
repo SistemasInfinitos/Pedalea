@@ -186,7 +186,7 @@
     });
 
     function BorrarPersona(PersonaID) 
-    { debugger
+    { 
         if (PersonaID>0) {
             $.ajax({
                 url: `/api/PersonaAPI/BorrarPersonas?PersonaID=${PersonaID}`,
@@ -202,7 +202,7 @@
                 complete: function () {
                     GetPersonas();
                 },
-                error: function (data) {debugger
+                error: function (data) {
                     toastr.error("No pudimos completar tu solicitud!");
                 }
             });

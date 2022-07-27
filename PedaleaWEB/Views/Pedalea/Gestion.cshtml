@@ -161,7 +161,7 @@
                 $('#tableDinamica').DataTable().clear();
                 $('#tableDinamica').DataTable().destroy();
                 $('#tableDinamica').find('tbody').empty();
-                if (response.responseClient.success==true) {debugger
+                if (response.responseClient.success==true) {
                     for (var i = 0; i < response.model.length; i++) {
                         $('#tableDinamica').find('tbody').append(
                             `<tr id="">
@@ -202,13 +202,13 @@
     }
 
     function BorrarDocumento(documentoID) 
-    { debugger
+    { 
         if (documentoID>0) {
             $.ajax({
                 url: `/api/PedaleaAPI/BorrarDocumento?DocumentoID=${documentoID}`,
                 type: 'DELETE',
                 async:true,
-                success: function (response) {      debugger            
+                success: function (response) {                  
                     if (response.responseClient.success) {
                         toastr.success(response.responseClient.mensaje);
                     } else {
@@ -218,7 +218,7 @@
                 complete: function () {
                     GetDocumento();
                 },
-                error: function (data) {debugger
+                error: function (data) {
                     toastr.error("No pudimos completar tu solicitud!");
                 }
             });
