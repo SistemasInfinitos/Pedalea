@@ -1,11 +1,12 @@
 ﻿using CanonicalModel.Model.Configuration;
+using CanonicalModel.Model.Entity.Pedalea;
 using CanonicalModel.Model.Entity.Persona;
 using Microsoft.Extensions.Options;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 
-namespace PedaleaAPI.Repository
+namespace PedaleaAPI.Repository.Pedalea
 {
     public class PedaleaESRepository : IPedaleaESRepository
     {
@@ -20,7 +21,7 @@ namespace PedaleaAPI.Repository
             _jwtConfig = optionsMonitor.CurrentValue;
         }
 
-        public async Task<int> Crear(Personas entidad)
+        public async Task<int> CrearDocumento(Documentos entidad)
         {
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
@@ -30,18 +31,12 @@ namespace PedaleaAPI.Repository
                     cmd.CommandType = CommandType.StoredProcedure;
                     con.Open();
 
-                    cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = entidad.PersonaID??0;
-                    cmd.Parameters.Add("@PrimerNombre", SqlDbType.VarChar,50).Value = entidad.PrimerNombre;
-                    cmd.Parameters.Add("@SegundoNombre", SqlDbType.VarChar,50).Value = entidad.SegundoNombre;
-                    cmd.Parameters.Add("@PrimerApellido", SqlDbType.VarChar,50).Value = entidad.PrimerApellido;
-                    cmd.Parameters.Add("@SegundoApellido", SqlDbType.VarChar,50).Value = entidad.SegundoApellido;
-                    cmd.Parameters.Add("@Identificacion", SqlDbType.VarChar,15).Value = entidad.Identificacion;
-                    cmd.Parameters.Add("@EsCliente", SqlDbType.Bit).Value = entidad.EsCliente;
-                    cmd.Parameters.Add("@EsProveedor", SqlDbType.Bit).Value = entidad.EsProveedor;
+                    cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = entidad.DocumentoID ?? 0;
+
 
                     int rowsAffected = await cmd.ExecuteNonQueryAsync();
                     con.Close();
-                    return (rowsAffected);
+                    return rowsAffected;
                 }
                 catch (Exception e)
                 {
@@ -51,9 +46,9 @@ namespace PedaleaAPI.Repository
             }
         }
 
-        public async Task<List<Personas>> Get()
+        public async Task<List<Documentos>> GetDocumentos()
         {
-            List<Personas> personas = new List<Personas>();
+            List<Documentos> lista = new List<Documentos>();
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
                 SqlCommand cmd = new SqlCommand("SpGetPersonas", con);
@@ -62,20 +57,21 @@ namespace PedaleaAPI.Repository
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (await rdr.ReadAsync())
                 {
-                    var employee = new Personas()
+                    var data = new Documentos()
                     {
-                        PersonaID = Convert.ToInt32(rdr["PersonaID"]),
-                        PrimerNombre = rdr["PrimerNombre"].ToString(),
-                        SegundoNombre = rdr["SegundoNombre"].ToString(),
-                        PrimerApellido = rdr["PrimerApellido"].ToString(),
-                        SegundoApellido = rdr["SegundoApellido"].ToString(),
-                        EsCliente = Convert.ToBoolean(rdr["EsCliente"].ToString()),
-                        EsProveedor = Convert.ToBoolean(rdr["EsProveedor"].ToString()),
+                        DocumentoID = Convert.ToInt32(rdr["DocumentoID"]),
+                        PersonaIDCliente = Convert.ToInt32(rdr["PersonaIDCliente"]),
+                        PersonaIDVendedor = Convert.ToInt32(rdr["PersonaIDVendedor"]),
+                        TipoDocumentoID = Convert.ToInt32(rdr["TipoDocumentoID"]),
+                        ValorTotal = Convert.ToDecimal(rdr["ValorTotal"]),
+                        FechaCreacion = Convert.ToDateTime(rdr["FechaCreacion"]),
+                        Direccion = rdr["Direccion"].ToString(),
+
                     };
-                    personas.Add(employee);
+                    lista.Add(data);
                 }
                 con.Close();
-                return (personas);
+                return lista;
             }
         }
     }
