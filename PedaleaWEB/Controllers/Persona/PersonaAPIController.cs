@@ -73,7 +73,7 @@ namespace PedaleaWEB.Controllers.Persona
         }
 
 
-        [Route("[action]", Name = "GetPersonas")]
+        [Route("[action]", Name = "GetPersonasById")]
         [HttpGet]
         public async Task<IActionResult> GetPersonasById(int PersonaID)
         {
@@ -91,7 +91,7 @@ namespace PedaleaWEB.Controllers.Persona
 
                 if (ModelState.IsValid)
                 {
-                    string uri = $"https://localhost:7107/api/Personas/GetPersonas?PersonaID={PersonaID}"; // esto se debe configurar en el archivo json
+                    string uri = $"https://localhost:7107/api/Personas/GetPersonasById?PersonaID={PersonaID}"; // esto se debe configurar en el archivo json
 
                     try
                     {
@@ -101,10 +101,16 @@ namespace PedaleaWEB.Controllers.Persona
                         {
                             model = await JsonSerializer.DeserializeAsync<Personas>(await response.Content.ReadAsStreamAsync(), options);
 
-                            if (model!=null)
+                            if (model!=null && model.PersonaID>0)
                             {
                                 responseClient.Success = true;
                                 responseClient.Mensaje = "success";
+                                return Ok(new { model, responseClient });
+                            }
+                            else if (model != null && (model.PersonaID == 0|| model.PersonaID == null))
+                            {
+                                responseClient.Success = true;
+                                responseClient.Mensaje = "Sin datos";
                                 return Ok(new { model, responseClient });
                             }
                             else

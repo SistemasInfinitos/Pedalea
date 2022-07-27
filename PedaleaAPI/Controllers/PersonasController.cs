@@ -31,9 +31,27 @@ namespace PedaleaAPI.Controllers
             List<Personas> personas = new List<Personas>();
             try
             {
-                var data = await _repository.GetPersonas();
+                personas = await _repository.GetPersonas();
 
-                return data;
+                return personas;
+            }
+            catch (EvaluateException e)
+            {
+                var debugger = e.Message;
+                return personas;
+            }
+        }
+
+        [Route("[action]", Name = "GetPersonasById")]
+        [HttpGet]
+        public async Task<Personas> GetPersonasById(int PersonaID)
+        {
+            Personas personas = new Personas();
+            try
+            {
+                personas = await _repository.GetPersonasById(PersonaID);
+
+                return personas;
             }
             catch (EvaluateException e)
             {

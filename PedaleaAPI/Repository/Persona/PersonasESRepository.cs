@@ -87,10 +87,12 @@ namespace PedaleaAPI.Repository.Persona
             {
                 SqlCommand cmd = new SqlCommand("SpGetPersonasById", con);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = PersonaID ;
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
-                while (await rdr.ReadAsync())
+                try
                 {
+                    await rdr.ReadAsync();
                     var employee = new Personas()
                     {
                         PersonaID = Convert.ToInt32(rdr["PersonaID"]),
@@ -100,12 +102,18 @@ namespace PedaleaAPI.Repository.Persona
                         PrimerApellido = rdr["PrimerApellido"].ToString(),
                         SegundoApellido = rdr["SegundoApellido"].ToString(),
                         EsCliente = Convert.ToBoolean(rdr["EsCliente"].ToString()),
-                        EsProveedor = Convert.ToBoolean(((!string.IsNullOrWhiteSpace(rdr["EsProveedor"]?.ToString())? rdr["EsProveedor"]?.ToString() :false))),
+                        EsProveedor = Convert.ToBoolean(((!string.IsNullOrWhiteSpace(rdr["EsProveedor"]?.ToString()) ? rdr["EsProveedor"]?.ToString() : false))),
                     };
-                    personas=employee;
+                    personas = employee;
+
+                    con.Close();
+                    return (personas);
                 }
-                con.Close();
-                return (personas);
+                catch (Exception e)
+                {
+                    con.Close();
+                    return (personas);
+                }
             }
         }
     }
