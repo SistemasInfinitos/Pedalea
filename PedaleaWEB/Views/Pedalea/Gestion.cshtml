@@ -352,18 +352,12 @@
             },
             success: function (response) {
                 $('#ProductoID').empty();
-                
-                
+                              
                 if (response.responseClient.success==true) {
                     if (response.model.length>0) {
                          $(response.model).each(function (i) 
                          {
                             $('#ProductoID').append(new Option(response.model[i].producto, response.model[i].productoID));
-
-                            //$('#ProductoID').append($('<option>', {
-                            //    value:response.model[i].productoID,
-                            //    text: response.model[i].producto,
-                            //}));
                         });
                     }
                 } else {
@@ -416,8 +410,7 @@
     function addArray() {
         debugger
         var ProductoID = $("#ProductoID").val();
-        var ProductoTex = $("#ProductoID").text();
-        var ProductoTex2 = $("#ProductoID").attr("text");
+        var ProductoTex = $("#ProductoID option:selected").text();;
         var ValorUnitario = $("#ValorUnitario").val();
         var Cantidad = $("#Cantidad").val();
 
