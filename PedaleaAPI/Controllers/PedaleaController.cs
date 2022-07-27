@@ -78,7 +78,7 @@ namespace PedaleaAPI.Controllers
             }
         }
 
-        [Route("[action]", Name = "GetDocumentoById")]
+        [Route("[action]", Name = "GetProductoByName")]
         [HttpGet]
         public async Task<Productos> GetProductoByName(string name)
         {
