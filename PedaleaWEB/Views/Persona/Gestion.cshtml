@@ -145,6 +145,7 @@
                 },
                 complete: function () {
                     $("#modalCrear").modal("hide");
+                    GetPersonas();
                 },
                 error: function (data) {
                    toastr.error("No pudimos completar tu solicitud!");
@@ -163,8 +164,7 @@
                 traditional: true,
                 async: true,
                 dataType: "JSON",
-                success: function (response) {
-                    debugger
+                success: function (response) {                  
                     if (response.responseClient.success) {
                         toastr.success(response.responseClient.mensaje);
                     } else {
@@ -173,6 +173,7 @@
                 },
                 complete: function () {
                     $("#modalCrear").modal("hide");
+                    GetPersonas();
                 },
                 error: function (data) {
                    toastr.error("No pudimos completar tu solicitud!");
@@ -183,6 +184,37 @@
             toastr.warning("selecciona una accion!");
         }
     });
+
+    function BorrarPersona(PersonaID) 
+    { 
+        if (PersonaID>0) {
+            $.ajax({
+            url: `/api/PersonaAPI/BorrarPersonas?PersonaID=${PersonaID}`,
+            method: 'Delete',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            traditional: true,
+            async: true,
+            dataType: "JSON",
+            success: function (response) {                  
+                if (response.responseClient.success) {
+                    toastr.success(response.responseClient.mensaje);
+                } else {
+                    toastr.warning(response.responseClient.mensaje);
+                }
+            },
+            complete: function () {
+                $("#modalCrear").modal("hide");
+                GetPersonas();
+            },
+            error: function (data) {
+                toastr.error("No pudimos completar tu solicitud!");
+            }
+        });
+        }
+    }
 
     function GetPersonas() {
         $.ajax({
