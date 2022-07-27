@@ -76,6 +76,12 @@
             <label for="EsProveedor" class="col-form-label">Es Proveedor:</label>
             <input type="checkbox" class="form-check checkbox" id="EsProveedor">
           </div>
+          <div class="col-md-3">
+            <label for="ProductoID" class="col-form-label">Producto ID:</label>
+            <select class="form-select" id="ProductoID">
+
+            </select>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -90,6 +96,7 @@
     var update = false;
     $(document).ready(function () {
         GetDocumento();
+        SelectLisProductos();
     })
 
     function GetModalCrear() 
@@ -251,31 +258,48 @@
         }
     }
 
+    $("ProductoID")
 
-        $('#idPersonaCliente').select2({
-        ajax: {
-            url: `/api/PedaleaAPI/GetProductoByName`,
-            cache: false,
-            tags: "true",
-            placeholder: "Select an option",
-            allowClear: true,
-            width: 'resolve',
-            data: function (params) {
-                var query = {
-                    name: params.term,
-                    page: params.page || 1
-                }
-                return query;
+    function SelectLisProductos() {
+        var ProductoID = $("#ProductoID").val();
+
+        debugger
+        $.ajax({
+            url: `/api/PedaleaAPI/GetProductoByName?name=${ProductoID}`,
+            method: 'get',
+            traditional: true,
+            async: true,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                'Authorization': 'Bearer '
+                    + localStorage.getItem("accessToken")
             },
-            processResults: function (data, params) {
-                 return {
-                    "results": data,
-                    "pagination": {
-                        "more": false
+            success: function (response) {
+                $('#ProductoID').empty();
+                debugger
+                if (response.responseClient.success==true) {
+                    if (response.model.length>0) {
+                         $(response.model).each(function (i) {
+                        $('#ProductoID').append($('<option>', {
+                            value:response.model[i].productoID,
+                            text: response.model[i].producto,
+                        }));
+                    });
                     }
+                    //if (idTemporada != "") {
+                    //    $("#idTemporada").val(idTemporada).trigger('change.select2');
+                    //}
+                } else {
+                    toastr.warning(response.responseClient.mensaje);
                 }
+            },
+            error: function (data) {debugger
+                toastr.error("No pudimos completar tu solicitud!");
             }
-        }
-    });
+        });
+    }
+
+
 
 </script>

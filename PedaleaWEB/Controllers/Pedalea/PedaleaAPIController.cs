@@ -156,7 +156,7 @@ namespace PedaleaWEB.Controllers.Pedalea
 
                 if (ModelState.IsValid)
                 {
-                    string uri = $"https://localhost:7107/api/Pedalea/GetProductoByName=name={name}"; // esto se debe configurar en el archivo json
+                    string uri = $"https://localhost:7107/api/Pedalea/GetProductoByName?name={name}"; // esto se debe configurar en el archivo json
 
                     try
                     {
@@ -174,7 +174,7 @@ namespace PedaleaWEB.Controllers.Pedalea
                             }
                             else if (model == null || model.Count == 0)
                             {
-                                responseClient.Success = true;
+                                responseClient.Success = false;
                                 responseClient.Mensaje = "Sin datos";
                                 return Ok(new { model, responseClient });
                             }
