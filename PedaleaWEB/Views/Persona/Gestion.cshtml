@@ -83,7 +83,7 @@
   </div>
 </div>
 <script>
-    var PersonaID = 0;
+    var personaID = 0;
     var update = false;
     $(document).ready(function () {
         GetPersonas();
@@ -91,19 +91,28 @@
 
     function GetModalCrear(personaID) 
     {
+        $("#PersonaID").val();
+        $("#Identificacion").val("");
+        $("#PrimerNombre").val("");
+        $("#SegundoNombre").val("");
+        $("#PrimerApellido").val("");
+        $("#SegundoApellido").val("");
+        $("#EsCliente").prop("checked", false);
+        $("#EsProveedor").prop("checked",false);
+
         $("#modalCrear").modal("show")
         debugger
         if (personaID>0) {
-            GetPersonasById(PersonaID);
+            GetPersonasById(personaID);
         }
     }
 
-     $("#btnCrear").click(function () {
-          PersonaID = parseInt($("#PersonaID").val());
+     $("#btnCrear").click(function () {debugger
+          personaID = parseInt($("#PersonaID").val());
 
-         if (PersonaID > 0) { } else {PersonaID=0 }
+         if (personaID > 0) { } else {personaID=0 }
         var data = {
-            PersonaID: PersonaID,
+            PersonaID: personaID,
             Identificacion: $("#Identificacion").val(),
             PrimerNombre: $("#PrimerNombre").val(),
             SegundoNombre: $("#SegundoNombre").val(),
@@ -200,9 +209,9 @@
         });
     }
 
-    function GetPersonasById(PersonaID) {debugger
+    function GetPersonasById(personaID) {debugger
         $.ajax({
-            url: `/api/PersonaAPI/GetPersonasById?PersonaID=${PersonaID}`,
+            url: `/api/PersonaAPI/GetPersonasById?PersonaID=${personaID}`,
             method: 'GET',
             data: {},
             traditional: true,
@@ -218,7 +227,7 @@
                     $("#PrimerNombre").val(response.model.primerNombre);
                     $("#SegundoNombre").val(response.model.segundoNombre);
                     $("#PrimerApellido").val(response.model.primerApellido);
-                    $("#SegundoApellido").val();
+                    $("#SegundoApellido").val(response.model.segundoApellido);
                     $("#EsCliente").prop("checked", response.model.esCliente);
                     $("#EsProveedor").prop("checked", response.model.esCliente);
                     
