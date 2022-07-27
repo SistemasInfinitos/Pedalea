@@ -138,14 +138,14 @@ namespace PedaleaAPI.Repository.Pedalea
             }
         }
 
-        public async Task<Productos> GetProductosByName(string name)
+        public async Task<List<Productos>> GetProductosByName(string name)
         {
-            List<Productos> lista = new List<Productos>();
+            List<Productos> lista = new();
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("SpGetDocumentos", con);
+                    SqlCommand cmd = new SqlCommand("SpGetProductosByName", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@name", SqlDbType.Int).Value = name;
                     con.Open();
@@ -170,7 +170,7 @@ namespace PedaleaAPI.Repository.Pedalea
                     return lista;
                 }
                 return lista;
-            }
+            }           
         }
     }
 }

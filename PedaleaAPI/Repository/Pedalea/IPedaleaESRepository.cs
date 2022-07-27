@@ -30,7 +30,7 @@ namespace PedaleaAPI.Repository.Pedalea
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        Task<Productos> GetProductosByName(string name);
+        Task<List<Productos>> GetProductosByName(string name);
 
         Task<int> BorrarDocumentosById(int DocumentoID);
     }

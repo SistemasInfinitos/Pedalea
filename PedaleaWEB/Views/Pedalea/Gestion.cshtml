@@ -250,4 +250,32 @@
             });
         }
     }
+
+
+        $('#idPersonaCliente').select2({
+        ajax: {
+            url: `/api/PedaleaAPI/GetProductoByName`,
+            cache: false,
+            tags: "true",
+            placeholder: "Select an option",
+            allowClear: true,
+            width: 'resolve',
+            data: function (params) {
+                var query = {
+                    name: params.term,
+                    page: params.page || 1
+                }
+                return query;
+            },
+            processResults: function (data, params) {
+                 return {
+                    "results": data,
+                    "pagination": {
+                        "more": false
+                    }
+                }
+            }
+        }
+    });
+
 </script>

@@ -8,6 +8,11 @@ namespace CanonicalModel.Model.Entity.Pedalea
 {
     public class Productos
     {
+        public Productos()
+        {
+            Valor = 0;
+        }
+
         public int? ProductoID { get; set; }
         public string? Producto { get; set; }
         public decimal Valor { get; set; }
