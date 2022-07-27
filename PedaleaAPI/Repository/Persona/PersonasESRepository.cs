@@ -13,8 +13,6 @@ namespace PedaleaAPI.Repository.Persona
         private readonly CultureInfo cultureFecha = new CultureInfo("en-US");
         private readonly JwtConfiguration _jwtConfig;
 
-        //private readonly DbContextOptions<Context> _db = ContextDB.DB;
-
         public PersonasESRepository(IOptionsMonitor<JwtConfiguration> optionsMonitor)
         {
             _jwtConfig = optionsMonitor.CurrentValue;

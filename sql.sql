@@ -183,6 +183,30 @@ begin
 end
 GO
 
+ALTER procedure SpDeleteDocumento
+@DocumentoID int
+as
+BEGIN 
+	BEGIN TRANSACTION
+		if exists(select * from Documentos where  DocumentoID=@DocumentoID)            
+		BEGIN            
+			DELETE I FROM Inventarios I JOIN DetalleDocumentos D ON D.DetalleDocumentoID=I.DetalleDocumentoID where  DocumentoID=@DocumentoID
+			DELETE DetalleDocumentos where  DocumentoID=@DocumentoID
+			DELETE Documentos where  DocumentoID=@DocumentoID
+		End                    
+		else            
+			select respuesta=@@ROWCOUNT; 		  
+		
+	IF(@@ERROR = 0)
+		COMMIT 
+	ELSE 
+		ROLLBACK TRANSACTION
+	END
+
+
+
+
+
 create procedure SpGetDetalleDocumentos
 as
 begin 
@@ -198,7 +222,7 @@ begin
 end
 GO
 
-select * from  TipoDocumentos
+select * from  Documentos
 
 ALTER PROCEDURE [dbo].[SpCrearDocumento]
 	@PersonaIDCliente int=null,

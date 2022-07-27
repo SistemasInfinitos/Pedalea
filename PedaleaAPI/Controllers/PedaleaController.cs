@@ -23,7 +23,7 @@ namespace PedaleaAPI.Controllers
             _repository = new PedaleaESRepository(optionsMonitor);
         }
 
-        #region Tienda
+        #region Documento
         [Route("[action]", Name = "GetDocumentos")]
         [HttpGet]
         public async Task<List<Documentos>> GetDocumentos()
@@ -39,6 +39,42 @@ namespace PedaleaAPI.Controllers
             {
                 var debugger = e.Message;
                 return personas;
+            }
+        }
+
+
+        [Route("[action]", Name = "GetDocumentoById")]
+        [HttpGet]
+        public async Task<Documentos> GetDocumentoById(int DocumentoID)
+        {
+            Documentos personas = new Documentos();
+            try
+            {
+                personas = await _repository.GetDocumentosById(DocumentoID);
+
+                return personas;
+            }
+            catch (EvaluateException e)
+            {
+                var debugger = e.Message;
+                return personas;
+            }
+        }
+
+        [Route("[action]", Name = "DeleteDocumento")]
+        [HttpDelete]
+        public async Task<int> DeleteDocumento(int DocumentoID)
+        {
+            try
+            {
+                var data = await _repository.BorrarDocumentosById(DocumentoID);
+
+                return data;
+            }
+            catch (EvaluateException e)
+            {
+                var debugger = e.Message;
+                return e.GetHashCode();
             }
         }
         #endregion

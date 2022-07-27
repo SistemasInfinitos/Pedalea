@@ -14,11 +14,33 @@ namespace PedaleaAPI.Repository.Pedalea
         private readonly CultureInfo cultureFecha = new CultureInfo("en-US");
         private readonly JwtConfiguration _jwtConfig;
 
-        //private readonly DbContextOptions<Context> _db = ContextDB.DB;
-
         public PedaleaESRepository(IOptionsMonitor<JwtConfiguration> optionsMonitor)
         {
             _jwtConfig = optionsMonitor.CurrentValue;
+        }
+
+        public async Task<int> BorrarDocumentosById(int DocumentoID)
+        {
+            using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SpDeleteDocumento", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+
+                    cmd.Parameters.Add("@DocumentoID", SqlDbType.Int).Value = DocumentoID;
+
+                    int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                    con.Close();
+                    return (rowsAffected);
+                }
+                catch (Exception e)
+                {
+                    var debugger = e.Message;
+                    return e.GetHashCode();
+                }
+            }
         }
 
         public async Task<int> CrearDocumento(Documentos entidad)

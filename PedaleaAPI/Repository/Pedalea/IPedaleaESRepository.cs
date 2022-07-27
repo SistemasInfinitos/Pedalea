@@ -24,5 +24,7 @@ namespace PedaleaAPI.Repository.Pedalea
         /// <param name="DocumentoID"></param>
         /// <returns></returns>
         Task<Documentos> GetDocumentosById(int DocumentoID);
+
+        Task<int> BorrarDocumentosById(int DocumentoID);
     }
 }
