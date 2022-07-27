@@ -186,33 +186,27 @@
     });
 
     function BorrarPersona(PersonaID) 
-    { 
+    { debugger
         if (PersonaID>0) {
             $.ajax({
-            url: `/api/PersonaAPI/BorrarPersonas?PersonaID=${PersonaID}`,
-            method: 'Delete',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            traditional: true,
-            async: true,
-            dataType: "JSON",
-            success: function (response) {                  
-                if (response.responseClient.success) {
-                    toastr.success(response.responseClient.mensaje);
-                } else {
-                    toastr.warning(response.responseClient.mensaje);
+                url: `/api/PersonaAPI/BorrarPersonas?PersonaID=${PersonaID}`,
+                type: 'DELETE',
+                async:true,
+                //data: {PersonaID:PersonaID},
+                success: function (response) {      debugger            
+                    if (response.responseClient.success) {
+                        toastr.success(response.responseClient.mensaje);
+                    } else {
+                        toastr.warning(response.responseClient.mensaje);
+                    }
+                },
+                complete: function () {
+                    GetPersonas();
+                },
+                error: function (data) {debugger
+                    toastr.error("No pudimos completar tu solicitud!");
                 }
-            },
-            complete: function () {
-                $("#modalCrear").modal("hide");
-                GetPersonas();
-            },
-            error: function (data) {
-                toastr.error("No pudimos completar tu solicitud!");
-            }
-        });
+            });
         }
     }
 
@@ -242,7 +236,7 @@
                                 <td align="right">${ response.model[i].esCliente}</td>
                                 <td align="right">${ response.model[i].esProveedor}</td>
                                 <td align="right">
-                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarPersona('${response.model[i].personaID}')">
+                                    <button type="button" class="btn btn-warning btn-xs" onclick="BorrarPersona(${response.model[i].personaID})">
                                         <i class="fa fa-trash"></i>&nbsp;Borrar&nbsp;&nbsp;
                                     </button>
                                 </td>

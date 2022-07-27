@@ -266,7 +266,7 @@ namespace PedaleaWEB.Controllers.Persona
             return BadRequest(new { model, responseClient });
         }
 
-        [HttpPut]
+        [HttpDelete]
         [Route("[action]")]
         public async Task<IActionResult> BorrarPersonas(int PersonaID)
         {

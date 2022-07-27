@@ -144,30 +144,22 @@ else
 end
 
 GO
-CREATE procedure SpDeletePersona
+ALTER procedure SpDeletePersona
 @PersonaID int
 as
-begin 
---declare @PersonaID int
---set @PersonaID =12
-declare @existe int
-declare @existeUsado int
-set @existe= (select COUNT(*)cantidad from Personas where PersonaID=@PersonaID)
-set @existeUsado= (select COUNT(*)cantidad from Documentos where PersonaIDCliente!=@PersonaID and PersonaIDVendedor!=@PersonaID)
+BEGIN 
+	if EXISTS(select COUNT(*)cantidad from Personas where PersonaID=@PersonaID)
+	begin
+		delete Personas where PersonaID=@PersonaID 
+		select respuesta=@@ROWCOUNT; 
+	end
+	else 
+		select respuesta=@@ROWCOUNT
+	
+END 
 
-if EXISTS(select COUNT(*)cantidad from Personas where PersonaID=@PersonaID)
-	begin
-	if NOT EXISTS(select COUNT(*)cantidad from Documentos where PersonaIDCliente=@PersonaID OR PersonaIDVendedor=@PersonaID)
-	begin
-	delete Personas where PersonaID=@PersonaID 
-	select respuesta=@@ROWCOUNT; 
-	end 
-	END
-else 
-	select respuesta=@@ROWCOUNT
-end
 
 GO
+SpDeletePersona 14
 
-
-select * from  Documentos
+select * from  Personas
