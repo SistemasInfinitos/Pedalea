@@ -156,7 +156,7 @@ namespace PedaleaWEB.Controllers.Pedalea
 
                 if (ModelState.IsValid)
                 {
-                    string uri = $"https://localhost:7107/api/Personas/DeletePersona?DocumentoID={DocumentoID}";// esto se debe configurar en el archivo json
+                    string uri = $"https://localhost:7107/api/Pedalea/DeleteDocumento?DocumentoID={DocumentoID}";// esto se debe configurar en el archivo json
 
                     try
                     {

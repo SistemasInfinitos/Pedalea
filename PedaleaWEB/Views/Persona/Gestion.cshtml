@@ -192,8 +192,7 @@
                 url: `/api/PersonaAPI/BorrarPersonas?PersonaID=${PersonaID}`,
                 type: 'DELETE',
                 async:true,
-                //data: {PersonaID:PersonaID},
-                success: function (response) {      debugger            
+                success: function (response) {                  
                     if (response.responseClient.success) {
                         toastr.success(response.responseClient.mensaje);
                     } else {

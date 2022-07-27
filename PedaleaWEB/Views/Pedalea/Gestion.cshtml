@@ -89,7 +89,7 @@
     var PersonaID = 0;
     var update = false;
     $(document).ready(function () {
-        GetPersonas();
+        GetDocumento();
     })
 
     function GetModalCrear() 
@@ -149,7 +149,7 @@
         }
     });
 
-    function GetPersonas() {
+    function GetDocumento() {
         $.ajax({
             url: '/api/PedaleaAPI/GetDocumentos',
             method: 'GET',
@@ -201,4 +201,27 @@
         });
     }
 
+    function BorrarDocumento(documentoID) 
+    { debugger
+        if (documentoID>0) {
+            $.ajax({
+                url: `/api/PedaleaAPI/BorrarDocumento?DocumentoID=${documentoID}`,
+                type: 'DELETE',
+                async:true,
+                success: function (response) {      debugger            
+                    if (response.responseClient.success) {
+                        toastr.success(response.responseClient.mensaje);
+                    } else {
+                        toastr.warning(response.responseClient.mensaje);
+                    }
+                },
+                complete: function () {
+                    GetDocumento();
+                },
+                error: function (data) {debugger
+                    toastr.error("No pudimos completar tu solicitud!");
+                }
+            });
+        }
+    }
 </script>

@@ -193,16 +193,18 @@ BEGIN
 			DELETE I FROM Inventarios I JOIN DetalleDocumentos D ON D.DetalleDocumentoID=I.DetalleDocumentoID where  DocumentoID=@DocumentoID
 			DELETE DetalleDocumentos where  DocumentoID=@DocumentoID
 			DELETE Documentos where  DocumentoID=@DocumentoID
-		End                    
-		else            
-			select respuesta=@@ROWCOUNT; 		  
-		
 	IF(@@ERROR = 0)
 		COMMIT 
 	ELSE 
 		ROLLBACK TRANSACTION
-	END
+		End                    
+		else            
+			select respuesta=@@ROWCOUNT; 		  
+		
 
+	END
+	
+select * from  Documentos
 
 
 
@@ -222,7 +224,6 @@ begin
 end
 GO
 
-select * from  Documentos
 
 ALTER PROCEDURE [dbo].[SpCrearDocumento]
 	@PersonaIDCliente int=null,
