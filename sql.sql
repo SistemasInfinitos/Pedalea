@@ -223,8 +223,22 @@ begin
  select * from DetalleDocumentos where DetalleDocumentoID=@DetalleDocumentoID
 end
 GO
+SpGetProductosByName @name ='RI',@ProductoID=1
 
-
+alter procedure SpGetProductosByName
+@name varchar(50),
+@ProductoID int=0
+as
+begin 
+ if(@ProductoID)=0
+ begin
+	select * from Productos where Producto like ('%'+@name+'%')
+ end 
+	else
+	select * from Productos where ProductoID =@ProductoID
+end
+GO
+select * from Productos where Producto like ('%a%')OR ProductoID = 1
 ALTER PROCEDURE [dbo].[SpCrearDocumento]
 	@PersonaIDCliente int=null,
 	@PersonaIDVendedor int,

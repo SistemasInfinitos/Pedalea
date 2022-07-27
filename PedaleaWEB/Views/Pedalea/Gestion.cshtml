@@ -89,24 +89,28 @@
                 <hr />
                 <div class="row col-md-12" style="padding:2px">
                     <div class="col-md-3">
-                    <label for="ProductoID" class="col-form-label"><span style="color:red">*</span>Producto ID:</label>
-                    <select class="form-select" id="ProductoID"></select>
+                        <label for="ProductoID" class="col-form-label"><span style="color:red">*</span>Producto ID:</label>
+                        <select class="form-select" id="ProductoID"></select>
                     </div>
                     <div class="col-md-2">
-                    <label for="Cantidad" class="col-form-label"><span style="color:red">*</span>Cantidad:</label>
-                    <input type="text" class="form-control" id="Cantidad" onkeyup="return miles(this.id)">
+                        <label for="Cantidad" class="col-form-label"><span style="color:red">*</span>Cantidad:</label>
+                        <input type="text" class="form-control" id="Cantidad" onkeyup="return miles(this.id)">
                     </div>
                     <div class="col-md-2">
-                    <label for="Valor" class="col-form-label"><span style="color:red">*</span>Valor:</label>
-                    <input type="text" class="form-control" id="Valor" onkeyup="return miles(this.id)">
+                        <label for="ValorUnitario" class="col-form-label"><span style="color:red">*</span>Valor:</label>
+                        <input type="text" class="form-control" id="ValorUnitario" onkeyup="return miles(this.id)">
                     </div>
                     <div class="col-md-2">
-                    <label for="Color" class="col-form-label">Color:</label>
-                    <input type="text" class="form-control" id="Color" readonly>
+                        <label for="PorcentajeDescuento" class="col-form-label"><span style="color:red">*</span>Valor:</label>
+                        <input type="text" class="form-control" id="PorcentajeDescuento" onkeyup="return miles(this.id)">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="Color" class="col-form-label">Color:</label>
+                        <input type="text" class="form-control" id="Color" readonly>
                     </div> 
                     <div class="col-md-1">
-                    <label for="Talla" class="col-form-label">Talla:</label>
-                    <input type="text" class="form-control" id="Talla" readonly>
+                        <label for="Talla" class="col-form-label">Talla:</label>
+                        <input type="text" class="form-control" id="Talla" readonly>
                     </div>
                     <div class="col-md-2">
                         <br />
@@ -144,7 +148,9 @@
   </div>
 </div>
 <script>
+    var listDetallePedidos = [];
     var DocumentoID = 0;
+    var ProductoID = 0;
     var update = false;
     $(document).ready(function () {
        // $("#ProductoID").select2();
@@ -312,15 +318,16 @@
     }
 
     $("#ProductoID").keyup(function(e) {
-        
+        debugger
         var ProductoID = $("#ProductoID").val();
         if (ProductoID!=null && ProductoID!=undefined && ProductoID!="") 
         {
             SelectLisProductos();
         }      
-    });    
+    });  
+    
     $("#ProductoID").change(function(e) {
-        
+        debugger
         var ProductoID = $("#ProductoID").val();
         if (ProductoID!=null && ProductoID!=undefined && ProductoID!="") 
         {
@@ -349,12 +356,15 @@
                 
                 if (response.responseClient.success==true) {
                     if (response.model.length>0) {
-                         $(response.model).each(function (i) {
-                        $('#ProductoID').append($('<option>', {
-                            value:response.model[i].productoID,
-                            text: response.model[i].producto,
-                        }));
-                    });
+                         $(response.model).each(function (i) 
+                         {
+                            $('#ProductoID').append(new Option(response.model[i].producto, response.model[i].productoID));
+
+                            //$('#ProductoID').append($('<option>', {
+                            //    value:response.model[i].productoID,
+                            //    text: response.model[i].producto,
+                            //}));
+                        });
                     }
                 } else {
                     toastr.warning(response.responseClient.mensaje);
@@ -366,7 +376,7 @@
         });
     }
 
-    function SelectLisProductosById() {
+    function SelectLisProductosById() {debugger
         var ProductoID = $("#ProductoID").val();
         var name = "0";
         if (ProductoID==null || ProductoID==undefined|| ProductoID=="") {ProductoID=0 }
@@ -388,7 +398,7 @@
                 if (response.responseClient.success==true) {
                     if (response.model.length>0) {
                          $(response.model).each(function (i) {
-                             $('#Valor').val(addCommas(response.model[i].valor));
+                             $('#ValorUnitario').val(addCommas(response.model[i].valor));
                              $('#Color').val(response.model[i].color);
                              $('#Talla').val(response.model[i].talla);
                     });
@@ -401,6 +411,25 @@
                 toastr.error("No pudimos completar tu solicitud!");
             }
         });
+    }
+
+    function addArray() {
+        debugger
+        var ProductoID = $("#ProductoID").val();
+        var ProductoTex = $("#ProductoID").text();
+        var ProductoTex2 = $("#ProductoID").attr("text");
+        var ValorUnitario = $("#ValorUnitario").val();
+        var Cantidad = $("#Cantidad").val();
+
+         var objIndex = listDetallePedidos.findIndex((obj => obj.ProductoID == ProductoID));
+        //Update object's goles property.
+        if (objIndex >=0) {
+            listDetallePedidos[objIndex].Cantidad += Cantidad;
+        }
+        else {
+            b = { ProductoID: ProductoID, ValorUnitario: ValorUnitario, Cantidad: Cantidad,Producto:ProductoTex };
+            listDetallePedidos.push(b);
+        }
     }
 
 </script>
