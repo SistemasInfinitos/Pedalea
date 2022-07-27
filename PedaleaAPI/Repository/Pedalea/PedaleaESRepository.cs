@@ -80,5 +80,39 @@ namespace PedaleaAPI.Repository.Pedalea
                 return lista;
             }
         }
+
+        public async Task<Documentos> GetDocumentosById(int DocumentoID)
+        {
+            Documentos lista = new Documentos();
+            using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SpGetDocumentosById", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    await rdr.ReadAsync();
+
+                    var data = new Documentos()
+                    {
+                        DocumentoID = Convert.ToInt32(rdr["DocumentoID"]),
+                        PersonaIDCliente = Convert.ToInt32(rdr["PersonaIDCliente"]),
+                        PersonaIDVendedor = Convert.ToInt32(rdr["PersonaIDVendedor"]),
+                        TipoDocumentoID = Convert.ToInt32(rdr["TipoDocumentoID"]),
+                        ValorTotal = Convert.ToDecimal(rdr["ValorTotal"]),
+                        FechaCreacion = Convert.ToDateTime(rdr["FechaCreacion"]),
+                        Direccion = rdr["Direccion"].ToString(),
+                    };
+                    lista= data;
+                    con.Close();
+                }
+                catch (Exception e)
+                {
+                    return lista;
+                }
+                return lista;
+            }
+        }
     }
 }

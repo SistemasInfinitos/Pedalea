@@ -17,5 +17,12 @@ namespace PedaleaAPI.Repository.Pedalea
         /// </summary>
         /// <returns></returns>
         Task<List<Documentos>> GetDocumentos();
+
+        /// <summary>
+        /// retorna el docuemnto seleccionado
+        /// </summary>
+        /// <param name="DocumentoID"></param>
+        /// <returns></returns>
+        Task<Documentos> GetDocumentosById(int DocumentoID);
     }
 }
