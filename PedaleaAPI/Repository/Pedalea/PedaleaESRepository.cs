@@ -147,7 +147,7 @@ namespace PedaleaAPI.Repository.Pedalea
                 {
                     SqlCommand cmd = new SqlCommand("SpGetProductosByName", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@name", SqlDbType.Int).Value = name;
+                    cmd.Parameters.Add("@name", SqlDbType.VarChar).Value = name;
                     con.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
                     while (await rdr.ReadAsync())
