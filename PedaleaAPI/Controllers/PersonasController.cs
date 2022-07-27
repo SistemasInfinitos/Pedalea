@@ -96,7 +96,7 @@ namespace PedaleaAPI.Controllers
         }
 
         [Route("[action]", Name = "DeletePersona")]
-        [HttpPut]
+        [HttpDelete]
         public async Task<int> DeletePersona(int PersonaID)
         {
             try

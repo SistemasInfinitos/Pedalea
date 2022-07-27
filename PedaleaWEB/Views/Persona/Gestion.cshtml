@@ -100,14 +100,14 @@
         $("#EsCliente").prop("checked", false);
         $("#EsProveedor").prop("checked",false);
 
-        $("#modalCrear").modal("show")
-        debugger
+        $("#modalCrear").modal("show");
+        
         if (personaID>0) {
             GetPersonasById(personaID);
         }
     }
 
-     $("#btnCrear").click(function () {debugger
+     $("#btnCrear").click(function () {
           personaID = parseInt($("#PersonaID").val());
 
          if (personaID > 0) { } else {personaID=0 }
@@ -121,12 +121,40 @@
             EsCliente: $("#EsCliente").prop("checked"),
             EsProveedor: $("#EsProveedor").prop("checked"),
         }
-        debugger
+        
         var value = JSON.stringify(data);
         if (update == false) {
             $.ajax({
                 url: '/api/PersonaAPI/CrearPersonas',
                 method: 'Post',
+                data: value,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                traditional: true,
+                async: true,
+                dataType: "JSON",
+                success: function (response) {
+                    
+                    if (response.responseClient.success) {
+                        toastr.success(response.responseClient.mensaje);
+                    } else {
+                        toastr.warning(response.responseClient.mensaje);
+                    }
+                },
+                complete: function () {
+                    $("#modalCrear").modal("hide");
+                },
+                error: function (data) {
+                   toastr.error("No pudimos completar tu solicitud!");
+                }
+            });
+        }
+        else if (PersonaID != "" && PersonaID != undefined && PersonaID != NaN) { 
+            $.ajax({
+                url: '/api/PersonaAPI/ActualizarPersonas',
+                method: 'Put',
                 data: value,
                 headers: {
                     'Accept': 'application/json',
@@ -144,15 +172,12 @@
                     }
                 },
                 complete: function () {
-
+                    $("#modalCrear").modal("hide");
                 },
-                error: function (data) {debugger
+                error: function (data) {
                    toastr.error("No pudimos completar tu solicitud!");
                 }
             });
-        }
-        else if (PersonaID != "" && PersonaID != undefined && PersonaID != NaN) { debugger
-            
         }
         else {
             toastr.warning("selecciona una accion!");
@@ -209,7 +234,7 @@
         });
     }
 
-    function GetPersonasById(personaID) {debugger
+    function GetPersonasById(personaID) {
         $.ajax({
             url: `/api/PersonaAPI/GetPersonasById?PersonaID=${personaID}`,
             method: 'GET',
@@ -218,10 +243,11 @@
             async: true,
             dataType: 'JSON',
             success: function (response) {
-                debugger
+                
                 if (response.responseClient.success==true)
                 {
-                    debugger
+                    
+                    update = true;
                     $("#PersonaID").val(response.model.personaID);
                     $("#Identificacion").val(response.model.identificacion);
                     $("#PrimerNombre").val(response.model.primerNombre);
