@@ -258,14 +258,18 @@
         }
     }
 
-    $("ProductoID")
+    $("ProductoID").change(function() {
+        var ProductoID = $("#ProductoID").val();
+        if (ProductoID!=null && ProductoID!=undefined)&& ProductoID!="") {SelectLisProductos();}
+        
+    });
 
     function SelectLisProductos() {
         var ProductoID = $("#ProductoID").val();
-
+        if (ProductoID==null || ProductoID==undefined) {ProductoID="a" }
         debugger
         $.ajax({
-            url: `/api/PedaleaAPI/GetProductoByName?name=${ProductoID}`,
+            url: `/api/PedaleaAPI/GetProductoByName?name='${ProductoID}'`,
             method: 'get',
             traditional: true,
             async: true,
