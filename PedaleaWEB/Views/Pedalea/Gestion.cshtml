@@ -86,7 +86,7 @@
   </div>
 </div>
 <script>
-    var PersonaID = 0;
+    var DocumentoID = 0;
     var update = false;
     $(document).ready(function () {
         GetDocumento();
@@ -98,18 +98,44 @@
     }
 
      $("#btnCrear").click(function () {
-          PersonaID = parseInt($("#PersonaID").val());
+          DocumentoID = parseInt($("#DocumentoID").val());
 
-         if (PersonaID > 0) { } else {PersonaID=0 }
+         if (DocumentoID > 0) { } else {DocumentoID=0 }
+
+         var PorcentajeDescuento = $("#PorcentajeDescuento").val();
+         var ProductoID = $("#ProductoID").val();
+         var Cantidad = $("#Cantidad").val();
+         var ValorUnitario = $("#ValorUnitario").val();
+         var ValorTotal = $("#ValorTotal").val();
+         var TipoDocumentoID = $("#TipoDocumentoID").val();
+         var PersonaIDCliente = $("#PersonaIDCliente").val();
+         var PersonaIDVendedor = $("#PersonaIDVendedor").val();
+         var PrimerNombre = $("#PrimerNombre").val();
+         var SegundoNombre = $("#SegundoNombre").val();
+         var PrimerApellido = $("#PrimerApellido").val();
+         var SegundoApellido = $("#SegundoApellido").val();
+         var Identificacion = $("#Identificacion").val();
+         var EsCliente =  $("#EsCliente").prop("checked");
+         var EsProveedor =  $("#EsProveedor").prop("checked");
+
         var data = {
-            PersonaID: PersonaID,
-            Identificacion: $("#Identificacion").val(),
-            PrimerNombre: $("#PrimerNombre").val(),
-            SegundoNombre: $("#SegundoNombre").val(),
-            PrimerApellido: $("#PrimerApellido").val(),
-            SegundoApellido: $("#SegundoApellido").val(),
-            EsCliente: $("#EsCliente").prop("checked"),
-            EsProveedor: $("#EsProveedor").prop("checked"),
+            DocumentoID: DocumentoID,
+            PorcentajeDescuento: PorcentajeDescuento,
+            ProductoID: ProductoID,
+            Cantidad: Cantidad,
+            ValorUnitario:ValorUnitario,
+            ValorTotal: ValorTotal,
+            TipoDocumentoID: TipoDocumentoID,
+            PersonaIDCliente: PersonaIDCliente,
+            PersonaIDVendedor: PersonaIDVendedor,
+            PrimerNombre: PrimerNombre,
+            SegundoNombre: SegundoNombre,
+            PrimerApellido: PrimerApellido,
+            SegundoApellido: SegundoApellido,
+            Identificacion: Identificacion,
+            Direccion: $("#Direccion").val(),
+            EsCliente:EsCliente,
+            EsProveedor: EsProveedor           
         }
         
         var value = JSON.stringify(data);
@@ -134,14 +160,14 @@
                     }
                 },
                 complete: function () {
-
+                    GetDocumento();
                 },
                 error: function (data) {
                    toastr.error("No pudimos completar tu solicitud!");
                 }
             });
         }
-        else if (PersonaID != "" && PersonaID != undefined && PersonaID != NaN) { 
+        else if (DocumentoID != "" && DocumentoID != undefined && DocumentoID != NaN) { 
             
         }
         else {

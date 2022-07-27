@@ -77,6 +77,24 @@ namespace PedaleaAPI.Controllers
                 return e.GetHashCode();
             }
         }
+
+        [Route("[action]", Name = "GetDocumentoById")]
+        [HttpGet]
+        public async Task<Productos> GetProductoByName(string name)
+        {
+            Productos personas = new Productos();
+            try
+            {
+                personas = await _repository.GetProductosByName(name);
+
+                return personas;
+            }
+            catch (EvaluateException e)
+            {
+                var debugger = e.Message;
+                return personas;
+            }
+        }
         #endregion
     }
 }

@@ -234,7 +234,7 @@ ALTER PROCEDURE [dbo].[SpCrearDocumento]
 	@SegundoApellido varchar(50)=null,
 	@EsCliente bit=1,
 	@EsProveedor bit=0,
-
+	@Cantidad int,
 	@Identificacion varchar(15),
 
 	@Direccion nvarchar(150),
@@ -254,6 +254,7 @@ BEGIN
 	
 	BEGIN TRANSACTION
 	DECLARE @actualizar int=0;
+	DECLARE @DetalleDocumentoID int;
 	if exists(select * from Personas where  Identificacion=@Identificacion)            
 		BEGIN            
 			UPDATE Personas SET 
@@ -300,19 +301,34 @@ BEGIN
 			DocumentoID,
 			ProductoID,
 			ValorUnitario,
-			PorcentajeDescuento
+			PorcentajeDescuento,
+			Cantidad
 		)VALUES(
-			@DocumentoID,@ProductoID,@ValorUnitario, @PorcentajeDescuento
+			@DocumentoID,@ProductoID,@ValorUnitario, @PorcentajeDescuento,@Cantidad
 		)
+		SET @DetalleDocumentoID = SCOPE_IDENTITY();	
 
+				
+		IF(@TipoDocumentoID)=2
+		BEGIN	
+			INSERT INTO Inventarios(ProductoID,DetalleDocumentoID,Entrante,Saliente,Separado)	
+			VALUES(@ProductoID,@DetalleDocumentoID,0,@Cantidad,0)
+		END ELSE
+		IF(@TipoDocumentoID)=1
+		BEGIN	
+			INSERT INTO Inventarios(ProductoID,DetalleDocumentoID,Entrante,Saliente,Separado)	
+			VALUES(@ProductoID,@DetalleDocumentoID,@Cantidad,0,0)
+		END ELSE
+			INSERT INTO Inventarios(ProductoID,DetalleDocumentoID,Entrante,Saliente,Separado)	
+			VALUES(@ProductoID,@DetalleDocumentoID,0,0,@Cantidad)
 
 		IF(@actualizar)=1
 		begin 
 			SET @ValorTotal= (SELECT valor=SUM((ValorUnitario-((ValorUnitario*PorcentajeDescuento)/100))*Cantidad) FROM DetalleDocumentos where DocumentoID=@DocumentoID )
 			UPDATE Documentos SET ValorTotal= @ValorTotal where DocumentoID=@DocumentoID  
 			end 
-		ELSE 
-			SELECT 0 
+		--ELSE 
+			--SELECT 0 
 		SELECT DocumentoID= @IdOutPut
 	IF(@@ERROR = 0)
 		COMMIT 
@@ -329,5 +345,12 @@ SELECT * FROM DetalleDocumentos WHERE DocumentoID=17
 select total= (SELECT valor=SUM((ValorUnitario-((ValorUnitario*PorcentajeDescuento)/100))*Cantidad) FROM DetalleDocumentos where DocumentoID=17)--@DocumentoID )
 			
 
-SpCrearDocumento @PersonaIDVendedor=15 ,@PrimerNombre='Misael' ,@Identificacion='1212',@Direccion='CALLE 12-34',@ValorTotal=50000,@ProductoID=1,
-@ValorUnitario =50000, @PorcentajeDescuento=2,@DocumentoID=17,@IdOutPut=0
+SpCrearDocumento @PersonaIDVendedor=15 ,@PrimerNombre='Misael Bello' 
+,@Identificacion='1313243',@Direccion='CALLE 12-34',@ValorTotal=50000,@ProductoID=2,
+@ValorUnitario =50000, @PorcentajeDescuento=2,@DocumentoID=30,@Cantidad=2,@IdOutPut=0
+
+
+SELECT * FROM Productos
+SELECT * FROM Documentos WHERE DocumentoID=24
+SELECT * FROM DetalleDocumentos WHERE DocumentoID=24
+SELECT * FROM Inventarios WHERE DocumentoID=16

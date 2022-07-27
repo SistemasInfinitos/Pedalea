@@ -24,6 +24,13 @@ namespace PedaleaAPI.Repository.Pedalea
         /// <param name="DocumentoID"></param>
         /// <returns></returns>
         Task<Documentos> GetDocumentosById(int DocumentoID);
+        
+        /// <summary>
+        /// trae todos los productos o los valores filtrados
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        Task<Productos> GetProductosByName(string name);
 
         Task<int> BorrarDocumentosById(int DocumentoID);
     }

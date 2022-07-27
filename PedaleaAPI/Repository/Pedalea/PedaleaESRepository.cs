@@ -112,6 +112,7 @@ namespace PedaleaAPI.Repository.Pedalea
                 {
                     SqlCommand cmd = new SqlCommand("SpGetDocumentosById", con);
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@DocumentoID", SqlDbType.Int).Value = DocumentoID;
                     con.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
                     await rdr.ReadAsync();
@@ -127,6 +128,41 @@ namespace PedaleaAPI.Repository.Pedalea
                         Direccion = rdr["Direccion"].ToString(),
                     };
                     lista= data;
+                    con.Close();
+                }
+                catch (Exception e)
+                {
+                    return lista;
+                }
+                return lista;
+            }
+        }
+
+        public async Task<Productos> GetProductosByName(string name)
+        {
+            List<Productos> lista = new List<Productos>();
+            using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("SpGetDocumentos", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@name", SqlDbType.Int).Value = name;
+                    con.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    while (await rdr.ReadAsync())
+                    {
+                        var data = new Productos()
+                        {
+                            ProductoID = Convert.ToInt32(rdr["ProductoID"]),
+                            Producto = rdr["Producto"].ToString(),
+                            Valor = Convert.ToDecimal(rdr["Valor"]),
+                            Talla = rdr["Talla"].ToString(),
+                            Color = rdr["Color"].ToString(),
+                            FechaCreacion = Convert.ToDateTime(rdr["FechaCreacion"]),
+                        };
+                        lista.Add(data);
+                    }
                     con.Close();
                 }
                 catch (Exception e)
