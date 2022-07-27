@@ -45,90 +45,97 @@
         <h5 class="modal-title" id="exampleModalLabel">Tienda</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body ">
-        <div class="row col-md-12  ">
-          <input type="text" class="form-control" id="PersonaID" hidden >
-          <div class="col-md-3">
-            <label for="Identificacion" class="col-form-label"><span style="color:red">*</span>Identificacion:</label>
-            <input type="text" class="form-control" id="Identificacion">         
-          </div>
-          <div class="col-md-3">
-            <label for="PrimerNombre" class="col-form-label">Primer Nombre:</label>
-            <input class="form-control" id="PrimerNombre" placeholder="Opcional">
-          </div>
-          <div class="col-md-3">
-            <label for="SegundoNombre" class="col-form-label">Segundo Nombre:</label>
-            <input class="form-control" id="SegundoNombre" placeholder="Opcional">
-          </div> 
-          <div class="col-md-3">
-            <label for="PrimerApellido" class="col-form-label">Primer Apellido:</label>
-            <input class="form-control" id="PrimerApellido" placeholder="Opcional">
-          </div>         
-          <div class="col-md-3">
-            <label for="SegundoApellido" class="col-form-label">Segundo Apellido:</label>
-            <input class="form-control" id="SegundoApellido" placeholder="Opcional">
-          </div> 
-          <div class="col-md-3">
-            <label for="Direccion" class="col-form-label"><span style="color:red">*</span> Direccion Entrega:</label>
-            <input class="form-control" id="Direccion">
-          </div>  
-          <div class="col-md-3">
-            <label for="EsCliente" class="col-form-label">Es Cliente:</label>
-            <input type="checkbox" class="form-check checkbox" id="EsCliente">
-          </div>   
-          <div class="col-md-3">
-            <label for="EsProveedor" class="col-form-label">Es Proveedor:</label>
-            <input type="checkbox" class="form-check checkbox" id="EsProveedor">
-          </div>
-          <br />    
-          <hr />
-          <div class="row col-md-12" style="pading:1px">
-              <div class="col-md-3">
-                <label for="ProductoID" class="col-form-label"><span style="color:red">*</span>Producto ID:</label>
-                <select class="form-select" id="ProductoID"></select>
-              </div>
-              <div class="col-md-2">
-                <label for="Cantidad" class="col-form-label"><span style="color:red">*</span>Cantidad:</label>
-                <input type="text" class="form-control" id="Cantidad" onkeyup="return miles(this.id)">
-              </div>
-              <div class="col-md-2">
-                <label for="Valor" class="col-form-label"><span style="color:red">*</span>Valor:</label>
-                <input type="text" class="form-control" id="Valor" onkeyup="return miles(this.id)">
-              </div>
-              <div class="col-md-2">
-                <label for="Color" class="col-form-label">Color:</label>
-                <input type="text" class="form-control" id="Color" readonly>
-              </div> 
-              <div class="col-md-1">
-                <label for="Talla" class="col-form-label">Talla:</label>
-                <input type="text" class="form-control" id="Talla" readonly>
-              </div>
-              <div class="col-md-2">
-                  <br />
-                    <button type="button" class="btn btn-primary" id="btnAddArray"><i class="fa fa-cart-plus" aria-hidden="true"></i> Agregar</button>
-              </div>
-        </div>
-        <hr />
-        <div class="row col-md-12" id="table">
-            <div class="container">
-                <div style="width:100%; margin:0 auto;">
-                    <table id="tableArray" class="table table-striped table-bordered table-hover dt-responsive nowrap display compact" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th style="text-align:center">ID</th>
-                                <th style="text-align:center">Valor Unitario $</th>
-                                <th style="text-align:center">Descuento %</th>
-                                <th style="text-align:center">Neto $</th>
-                                <th style="text-align:center">Sub Total $</th>
-                                <th style="text-align:center">Acción</th>
-                            </tr>
-                        </thead>
-                    </table>
+
+    <div class="modal-body ">
+         <div class="card mb-3">
+            <div class="card-body">
+                <div class="row col-md-12" >
+                <input type="text" class="form-control" id="PersonaID" hidden >
+                <div class="row col-md-12" style="padding:2px">
+                    <div class="col-md-3">
+                <label for="Identificacion" class="col-form-label"><span style="color:red">*</span>Identificacion:</label>
+                <input type="text" class="form-control" id="Identificacion">         
+                </div>
+                <div class="col-md-3">
+                <label for="PrimerNombre" class="col-form-label">Primer Nombre:</label>
+                <input class="form-control" id="PrimerNombre" placeholder="Opcional">
+                </div>
+                <div class="col-md-3">
+                <label for="SegundoNombre" class="col-form-label">Segundo Nombre:</label>
+                <input class="form-control" id="SegundoNombre" placeholder="Opcional">
+                </div> 
+                <div class="col-md-3">
+                <label for="PrimerApellido" class="col-form-label">Primer Apellido:</label>
+                <input class="form-control" id="PrimerApellido" placeholder="Opcional">
+                </div>         
+                <div class="col-md-3">
+                <label for="SegundoApellido" class="col-form-label">Segundo Apellido:</label>
+                <input class="form-control" id="SegundoApellido" placeholder="Opcional">
+                </div> 
+                <div class="col-md-3">
+                <label for="Direccion" class="col-form-label"><span style="color:red">*</span> Direccion Entrega:</label>
+                <input class="form-control" id="Direccion">
+                </div>  
+                <div class="col-md-3">
+                <label for="EsCliente" class="col-form-label">Es Cliente:</label>
+                <input type="checkbox" class="form-check checkbox" id="EsCliente">
+                </div>   
+                <div class="col-md-3">
+                <label for="EsProveedor" class="col-form-label">Es Proveedor:</label>
+                <input type="checkbox" class="form-check checkbox" id="EsProveedor">
                 </div>
             </div>
+                <br />    
+                <hr />
+                <div class="row col-md-12" style="padding:2px">
+                    <div class="col-md-3">
+                    <label for="ProductoID" class="col-form-label"><span style="color:red">*</span>Producto ID:</label>
+                    <select class="form-select" id="ProductoID"></select>
+                    </div>
+                    <div class="col-md-2">
+                    <label for="Cantidad" class="col-form-label"><span style="color:red">*</span>Cantidad:</label>
+                    <input type="text" class="form-control" id="Cantidad" onkeyup="return miles(this.id)">
+                    </div>
+                    <div class="col-md-2">
+                    <label for="Valor" class="col-form-label"><span style="color:red">*</span>Valor:</label>
+                    <input type="text" class="form-control" id="Valor" onkeyup="return miles(this.id)">
+                    </div>
+                    <div class="col-md-2">
+                    <label for="Color" class="col-form-label">Color:</label>
+                    <input type="text" class="form-control" id="Color" readonly>
+                    </div> 
+                    <div class="col-md-1">
+                    <label for="Talla" class="col-form-label">Talla:</label>
+                    <input type="text" class="form-control" id="Talla" readonly>
+                    </div>
+                    <div class="col-md-2">
+                        <br />
+                        <button type="button" class="btn btn-primary" id="btnAddArray"><i class="fa fa-cart-plus" aria-hidden="true"></i> Agregar</button>
+                    </div>
+            </div>
+            <hr />
+            <div class="row col-md-12" id="table" style="padding:2px">
+                <div class="container">
+                    <div style="width:100%; margin:0 auto;">
+                        <table id="tableArray" class="table table-striped table-bordered table-hover dt-responsive nowrap display compact" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">ID</th>
+                                    <th style="text-align:center">Valor Unitario $</th>
+                                    <th style="text-align:center">Descuento %</th>
+                                    <th style="text-align:center">Neto $</th>
+                                    <th style="text-align:center">Sub Total $</th>
+                                    <th style="text-align:center">Acción</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+            </div>
         </div>
-        </div>
-      </div>
+    </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
         <button type="button" class="btn btn-primary" id="btnCrear">Guardar</button>
