@@ -95,6 +95,23 @@ namespace PedaleaAPI.Controllers
                 return personas;
             }
         }
+
+        [Route("[action]", Name = "DeleteDocumento")]
+        [HttpDelete]
+        public async Task<int> CrearDocumento(Pedidos entidad)
+        {
+            try
+            {
+                var data = await _repository.CrearDocumento(entidad);
+
+                return data;
+            }
+            catch (EvaluateException e)
+            {
+                var debugger = e.Message;
+                return e.GetHashCode();
+            }
+        }
         #endregion
     }
 }

@@ -10,7 +10,7 @@ namespace PedaleaAPI.Repository.Pedalea
         /// </summary>
         /// <param name="entidad"></param>
         /// <returns></returns>
-        Task<int> CrearDocumento(Documentos entidad);
+        Task<int> CrearDocumento(Pedidos entidad);
 
         /// <summary>
         /// Obtiene 

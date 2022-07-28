@@ -43,7 +43,7 @@ namespace PedaleaAPI.Repository.Pedalea
             }
         }
 
-        public async Task<int> CrearDocumento(Documentos entidad)
+        public async Task<int> CrearDocumento(Pedidos entidad)
         {
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
@@ -53,7 +53,7 @@ namespace PedaleaAPI.Repository.Pedalea
                     cmd.CommandType = CommandType.StoredProcedure;
                     con.Open();
 
-                    cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = entidad.DocumentoID ?? 0;
+                    cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = entidad.DocumentoID;
 
 
                     int rowsAffected = await cmd.ExecuteNonQueryAsync();

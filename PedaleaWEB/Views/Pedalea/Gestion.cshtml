@@ -153,6 +153,7 @@
     var DocumentoID = 0;
     var ProductoID = 0;
     var update = false;
+    var ValorTotal = 0;
     $(document).ready(function () {
        // $("#ProductoID").select2();
         GetDocumento();
@@ -169,11 +170,6 @@
 
          if (DocumentoID > 0) { } else {DocumentoID=0 }
 
-         var PorcentajeDescuento = $("#PorcentajeDescuento").val();
-         var ProductoID = $("#ProductoID").val();
-         var Cantidad = $("#Cantidad").val();
-         var ValorUnitario = $("#ValorUnitario").val();
-         var ValorTotal = $("#ValorTotal").val();
          var TipoDocumentoID = $("#TipoDocumentoID").val();
          var PersonaIDCliente = $("#PersonaIDCliente").val();
          var PersonaIDVendedor = $("#PersonaIDVendedor").val();
@@ -187,11 +183,7 @@
 
         var data = {
             DocumentoID: DocumentoID,
-            PorcentajeDescuento: PorcentajeDescuento,
-            ProductoID: ProductoID,
-            Cantidad: Cantidad,
-            ValorUnitario:ValorUnitario,
-            ValorTotal: ValorTotal,
+            ValorTotal: ValorTotal,// lo ideal es racalcular en el server por seguridad
             TipoDocumentoID: TipoDocumentoID,
             PersonaIDCliente: PersonaIDCliente,
             PersonaIDVendedor: PersonaIDVendedor,
@@ -202,9 +194,11 @@
             Identificacion: Identificacion,
             Direccion: $("#Direccion").val(),
             EsCliente:EsCliente,
-            EsProveedor: EsProveedor           
+            EsProveedor: EsProveedor,
+            Pedidos//array // lo ideal es que los valores se rectifiquen en el server segun parametros ...descuento maximo etc..
         }
-        
+        debugger
+        return
         var value = JSON.stringify(data);
         if (update == false) {
             $.ajax({
@@ -458,13 +452,13 @@
             </tr >`);
             Total += ((Pedidos[i].Cantidad)*(Pedidos[i].ValorUnitario-((Pedidos[i].ValorUnitario*Pedidos[i].PorcentajeDescuento)/100)));
         }
-            $('#tableArray').find('tfoot').empty();
-            debugger
-            var foot = $("#tableArray").find('tfoot');
-            if (!foot.length) foot = $('<tfoot>').appendTo("#tableArray"); 
-            var result = Total.toFixed(2);
-            result = addCommas(result);
-            foot.append($(`<tr><td colspan="6">Total<td>${result}</td></tr>`));
+        ValorTotal = Total;
+        $('#tableArray').find('tfoot').empty();
+        var foot = $("#tableArray").find('tfoot');
+        if (!foot.length) foot = $('<tfoot>').appendTo("#tableArray"); 
+        var result = Total.toFixed(2);
+        result = addCommas(result);
+        foot.append($(`<tr><td colspan="6">Total<td>${result}</td></tr>`));
     }
 
     function QuitarItemArray(i) {
