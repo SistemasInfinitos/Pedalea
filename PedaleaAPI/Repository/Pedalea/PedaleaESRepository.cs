@@ -60,7 +60,7 @@ namespace PedaleaAPI.Repository.Pedalea
                         cmd.Parameters.Add("@ValorTotal", SqlDbType.Decimal).Value = entidad.ValorTotal;
                         cmd.Parameters.Add("@TipoDocumentoID", SqlDbType.Int).Value = entidad.TipoDocumentoID;
                         cmd.Parameters.Add("@PersonaIDCliente", SqlDbType.Int).Value = entidad.PersonaIDCliente;
-                        cmd.Parameters.Add("@PersonaIDVendedor", SqlDbType.Int).Value = entidad.PersonaIDVendedor;
+                        cmd.Parameters.Add("@PersonaIDVendedor", SqlDbType.Int).Value = entidad.PersonaIDVendedor>0? entidad.PersonaIDVendedor : 23;// se obtine de la session si existiera
                         cmd.Parameters.Add("@PrimerNombre", SqlDbType.VarChar).Value = entidad.PrimerNombre;
                         cmd.Parameters.Add("@SegundoNombre", SqlDbType.VarChar).Value = entidad.SegundoNombre;
                         cmd.Parameters.Add("@PrimerApellido", SqlDbType.VarChar).Value = entidad.PrimerApellido;
