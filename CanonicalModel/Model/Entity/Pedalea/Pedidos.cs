@@ -12,7 +12,7 @@ namespace CanonicalModel.Model.Entity.Pedalea
             LisPedidos = new();
         }
         public int? DocumentoID { get; set; }
-        public decimal ValorTotal { get; set; }
+        public decimal? ValorTotal { get; set; }
         public int? TipoDocumentoID { get; set; }
         public int? PersonaIDCliente { get; set; }
         public int? PersonaIDVendedor { get; set; }
@@ -25,7 +25,7 @@ namespace CanonicalModel.Model.Entity.Pedalea
         public bool? EsCliente { get; set; }
         public bool? EsProveedor { get; set; }
 
-        public List<Productos?>? LisPedidos { get; set; }
+        public List<Productos>? LisPedidos { get; set; }
     }
 }
 

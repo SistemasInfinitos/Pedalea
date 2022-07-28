@@ -11,6 +11,10 @@ namespace CanonicalModel.Model.Entity.Pedalea
         public Productos()
         {
             Valor = 0;
+            ValorUnitario = 0;
+            Cantidad = 0;
+            PorcentajeDescuento = 0;
+            Neto = 0;
         }
 
         public int? ProductoID { get; set; }
@@ -20,9 +24,9 @@ namespace CanonicalModel.Model.Entity.Pedalea
         public string? Color { get; set; }
         public DateTime? FechaCreacion { get; set; }
 
-        public virtual decimal? ValorUnitario { get; set; }
-        public virtual decimal? Cantidad { get; set; }
-        public virtual decimal? PorcentajeDescuento { get; set; }
-        public virtual decimal? Neto { get; set; }
+        public decimal? ValorUnitario { get; set; }
+        public decimal? Cantidad { get; set; }
+        public decimal? PorcentajeDescuento { get; set; }
+        public decimal? Neto { get; set; }
     }
 }
