@@ -49,14 +49,13 @@ namespace PedaleaAPI.Repository.Pedalea
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
                 try
-                {
-                    SqlCommand cmd = new SqlCommand("SpCrearDocumento", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    
-
+                {                   
                     foreach (var item in entidad.LisPedidos) 
                     {
+                        SqlCommand cmd = new SqlCommand("SpCrearDocumento", con);
+                        cmd.CommandType = CommandType.StoredProcedure;
                         con.Open();
+
                         cmd.Parameters.Add("@DocumentoID", SqlDbType.Int).Value = entidad.DocumentoID;
                         cmd.Parameters.Add("@ValorTotal", SqlDbType.Decimal).Value = entidad.ValorTotal;
                         cmd.Parameters.Add("@TipoDocumentoID", SqlDbType.Int).Value = entidad.TipoDocumentoID;
