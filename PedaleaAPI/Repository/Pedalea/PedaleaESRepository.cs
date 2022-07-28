@@ -78,9 +78,8 @@ namespace PedaleaAPI.Repository.Pedalea
                         response = await cmd.ExecuteReaderAsync();
                         await response.ReadAsync();
                         entidad.DocumentoID = Convert.ToInt32(response["DocumentoID"]);
-                    }
-
-                    con.Close();
+                        con.Close();
+                    }                  
                     return entidad.DocumentoID.Value;
                 }
                 catch (Exception e)
