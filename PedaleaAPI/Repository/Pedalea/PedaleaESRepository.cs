@@ -50,14 +50,13 @@ namespace PedaleaAPI.Repository.Pedalea
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("SpInserPersona", con);
+                    SqlCommand cmd = new SqlCommand("SpCrearDocumento", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     con.Open();
 
                     foreach (var item in entidad.LisPedidos) 
                     { 
                         cmd.Parameters.Add("@DocumentoID", SqlDbType.Int).Value = entidad.DocumentoID> 0? entidad.DocumentoID:rowsAffected;
-                        cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = entidad.PersonaID;
                         cmd.Parameters.Add("@ValorTotal", SqlDbType.Decimal).Value = entidad.ValorTotal;
                         cmd.Parameters.Add("@TipoDocumentoID", SqlDbType.Int).Value = entidad.TipoDocumentoID;
                         cmd.Parameters.Add("@PersonaIDCliente", SqlDbType.Int).Value = entidad.PersonaIDCliente;
@@ -70,13 +69,10 @@ namespace PedaleaAPI.Repository.Pedalea
                         cmd.Parameters.Add("@Direccion", SqlDbType.VarChar).Value = entidad.Direccion;
                         cmd.Parameters.Add("@EsCliente", SqlDbType.Bit).Value = entidad.EsCliente;
                         cmd.Parameters.Add("@EsProveedor", SqlDbType.Bit).Value = entidad.EsProveedor;
-
-
                         cmd.Parameters.Add("@ProductoID", SqlDbType.Int).Value = item.ProductoID;
                         cmd.Parameters.Add("@ValorUnitario", SqlDbType.Decimal).Value = item.ValorUnitario;
                         cmd.Parameters.Add("@Cantidad", SqlDbType.Decimal).Value = item.Cantidad;
                         cmd.Parameters.Add("@PorcentajeDescuento", SqlDbType.Decimal).Value = item.PorcentajeDescuento;
-
                         cmd.Parameters.Add("@IdOutPut", SqlDbType.Int).Value = rowsAffected;
 
                         rowsAffected = await cmd.ExecuteNonQueryAsync();
