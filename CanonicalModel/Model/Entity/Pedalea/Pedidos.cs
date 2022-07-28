@@ -11,6 +11,7 @@ namespace CanonicalModel.Model.Entity.Pedalea
         public Pedidos() {
             LisPedidos = new();
         }
+        public int? PersonaID { get; set; }
         public int? DocumentoID { get; set; }
         public decimal? ValorTotal { get; set; }
         public int? TipoDocumentoID { get; set; }

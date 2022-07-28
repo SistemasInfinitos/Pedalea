@@ -368,3 +368,19 @@ SELECT * FROM Productos
 SELECT * FROM Documentos WHERE DocumentoID=24
 SELECT * FROM DetalleDocumentos WHERE DocumentoID=24
 SELECT * FROM Inventarios WHERE DocumentoID=16
+
+
+
+CREATE TYPE dbo.LisDetalleDocumentos AS TABLE
+( 
+	ProductoID int null, 
+	Producto nvarchar(50) null, 
+	Valor decimal (18,2) null,
+	Talla varchar (50) null,
+	Color varchar (50) null,
+	FechaCreacion datetime null default getdate(),
+	ValorUnitario decimal (18,2) null,
+	Cantidad decimal (18,2) null,
+	PorcentajeDescuento decimal (18,2) null,
+	Neto decimal (18,2) null
+)

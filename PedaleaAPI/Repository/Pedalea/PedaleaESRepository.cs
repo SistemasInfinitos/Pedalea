@@ -45,6 +45,7 @@ namespace PedaleaAPI.Repository.Pedalea
 
         public async Task<int> CrearDocumento(Pedidos entidad)
         {
+            int rowsAffected = 0;
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
                 try
@@ -53,10 +54,35 @@ namespace PedaleaAPI.Repository.Pedalea
                     cmd.CommandType = CommandType.StoredProcedure;
                     con.Open();
 
-                    cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = entidad.DocumentoID;
+                    foreach (var item in entidad.LisPedidos) 
+                    { 
+                        cmd.Parameters.Add("@DocumentoID", SqlDbType.Int).Value = entidad.DocumentoID> 0? entidad.DocumentoID:rowsAffected;
+                        cmd.Parameters.Add("@PersonaID", SqlDbType.Int).Value = entidad.PersonaID;
+                        cmd.Parameters.Add("@ValorTotal", SqlDbType.Decimal).Value = entidad.ValorTotal;
+                        cmd.Parameters.Add("@TipoDocumentoID", SqlDbType.Int).Value = entidad.TipoDocumentoID;
+                        cmd.Parameters.Add("@PersonaIDCliente", SqlDbType.Int).Value = entidad.PersonaIDCliente;
+                        cmd.Parameters.Add("@PersonaIDVendedor", SqlDbType.Int).Value = entidad.PersonaIDVendedor;
+                        cmd.Parameters.Add("@PrimerNombre", SqlDbType.VarChar).Value = entidad.PrimerNombre;
+                        cmd.Parameters.Add("@SegundoNombre", SqlDbType.VarChar).Value = entidad.SegundoNombre;
+                        cmd.Parameters.Add("@PrimerApellido", SqlDbType.VarChar).Value = entidad.PrimerApellido;
+                        cmd.Parameters.Add("@SegundoApellido", SqlDbType.VarChar).Value = entidad.SegundoApellido;
+                        cmd.Parameters.Add("@Identificacion", SqlDbType.VarChar).Value = entidad.Identificacion;
+                        cmd.Parameters.Add("@Direccion", SqlDbType.VarChar).Value = entidad.Direccion;
+                        cmd.Parameters.Add("@EsCliente", SqlDbType.Bit).Value = entidad.EsCliente;
+                        cmd.Parameters.Add("@EsProveedor", SqlDbType.Bit).Value = entidad.EsProveedor;
 
 
-                    int rowsAffected = await cmd.ExecuteNonQueryAsync();
+                        cmd.Parameters.Add("@ProductoID", SqlDbType.Int).Value = item.ProductoID;
+                        cmd.Parameters.Add("@ValorUnitario", SqlDbType.Decimal).Value = item.ValorUnitario;
+                        cmd.Parameters.Add("@Cantidad", SqlDbType.Decimal).Value = item.Cantidad;
+                        cmd.Parameters.Add("@PorcentajeDescuento", SqlDbType.Decimal).Value = item.PorcentajeDescuento;
+
+                        cmd.Parameters.Add("@IdOutPut", SqlDbType.Int).Value = rowsAffected;
+
+                        rowsAffected = await cmd.ExecuteNonQueryAsync();
+                    }
+
+
                     con.Close();
                     return rowsAffected;
                 }
