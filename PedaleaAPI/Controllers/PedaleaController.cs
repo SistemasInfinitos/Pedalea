@@ -96,7 +96,7 @@ namespace PedaleaAPI.Controllers
             }
         }
 
-        [Route("[action]", Name = "DeleteDocumento")]
+        [Route("[action]", Name = "CrearDocumento")]
         [HttpDelete]
         public async Task<int> CrearDocumento(Pedidos entidad)
         {
