@@ -182,11 +182,11 @@
          var EsProveedor =  $("#EsProveedor").prop("checked");
 
         var data = {
-            DocumentoID: DocumentoID,
+            DocumentoID: DocumentoID, //Solo si se actualiza el documento
             ValorTotal: ValorTotal,// lo ideal es racalcular en el server por seguridad
-            TipoDocumentoID: TipoDocumentoID,
-            PersonaIDCliente: PersonaIDCliente,
-            PersonaIDVendedor: PersonaIDVendedor,
+            TipoDocumentoID: 2,// 2 es venta o salida de inventario
+            PersonaIDCliente: Identificacion,
+            PersonaIDVendedor: 0,// para otra ocacion (este seria el id de usuario)
             PrimerNombre: PrimerNombre,
             SegundoNombre: SegundoNombre,
             PrimerApellido: PrimerApellido,
@@ -198,7 +198,7 @@
             Pedidos//array // lo ideal es que los valores se rectifiquen en el server segun parametros ...descuento maximo etc..
         }
         debugger
-        return
+        
         var value = JSON.stringify(data);
         if (update == false) {
             $.ajax({
