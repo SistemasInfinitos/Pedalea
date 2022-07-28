@@ -239,6 +239,27 @@ begin
 end
 GO
 select * from Productos where Producto like ('%a%')OR ProductoID = 1
+SpCrearDocumento
+	@PersonaIDCliente =null,
+	@PersonaIDVendedor =null,
+	@PrimerNombre =null,
+	@SegundoNombre =null,
+	@PrimerApellido =null,
+	@SegundoApellido =null,
+	@EsCliente =null,
+	@EsProveedor =null,
+	@Cantidad =null,
+	@Identificacion =null,
+	@Direccion =null,
+	@DocumentoID =null,
+	@TipoDocumentoID =null,
+	@ValorTotal =null,
+	@ProductoID =null,
+	@ValorUnitario  =null,
+	@PorcentajeDescuento =null,
+	@IdOutPut =null,
+
+
 ALTER PROCEDURE [dbo].[SpCrearDocumento]
 	@PersonaIDCliente int=null,
 	@PersonaIDVendedor int,
@@ -250,16 +271,13 @@ ALTER PROCEDURE [dbo].[SpCrearDocumento]
 	@EsProveedor bit=0,
 	@Cantidad int,
 	@Identificacion varchar(15),
-
 	@Direccion nvarchar(150),
-
 	@DocumentoID int=0,
 	@TipoDocumentoID INT=2,
 	@ValorTotal DECIMAL(18,2),
 	@ProductoID INT,
 	@ValorUnitario  DECIMAL(18,2),
 	@PorcentajeDescuento DECIMAL(18,2),
-
 	@IdOutPut INT OUTPUT
 
 AS
@@ -289,7 +307,7 @@ BEGIN
 		end
 		
 		
-		if exists(SELECT * FROM Documentos where DocumentoID=@DocumentoID)            
+		if exists(SELECT * FROM Documentos where DocumentoID= @DocumentoID)            
 		BEGIN            
 			UPDATE Documentos SET 
 			PersonaIDCliente=@PersonaIDCliente,
@@ -297,8 +315,8 @@ BEGIN
 			TipoDocumentoID=@TipoDocumentoID,
 			ValorTotal=@ValorTotal,
 			Direccion=@Direccion
-		 where DocumentoID=@DocumentoID 
-		 SET @DocumentoID =(SELECT DocumentoID FROM Documentos where DocumentoID=@DocumentoID )
+			where DocumentoID=@DocumentoID 
+		-- SET @DocumentoID =(SELECT DocumentoID FROM Documentos where DocumentoID=@DocumentoID )
 		 SET @actualizar=1;
 		End                    
 		else            
@@ -343,7 +361,7 @@ BEGIN
 			end 
 		--ELSE 
 			--SELECT 0 
-		SELECT DocumentoID= @IdOutPut
+	SELECT DocumentoID= @IdOutPut
 	IF(@@ERROR = 0)
 		COMMIT 
 	ELSE 
@@ -359,12 +377,12 @@ SELECT * FROM DetalleDocumentos WHERE DocumentoID=17
 select total= (SELECT valor=SUM((ValorUnitario-((ValorUnitario*PorcentajeDescuento)/100))*Cantidad) FROM DetalleDocumentos where DocumentoID=17)--@DocumentoID )
 			
 
-SpCrearDocumento @PersonaIDVendedor=15 ,@PrimerNombre='Misael Bello' 
-,@Identificacion='1313243',@Direccion='CALLE 12-34',@ValorTotal=50000,@ProductoID=2,
+SpCrearDocumento @PersonaIDVendedor=15 ,@PrimerNombre='Misael Bello',@PersonaIDCliente=0 
+,@Identificacion='1234567',@Direccion='CALLE 12-34',@ValorTotal=50000,@ProductoID=2,
 @ValorUnitario =50000, @PorcentajeDescuento=2,@DocumentoID=30,@Cantidad=2,@IdOutPut=0
 
 
-SELECT * FROM Productos
+SELECT * FROM Personas
 SELECT * FROM Documentos WHERE DocumentoID=24
 SELECT * FROM DetalleDocumentos WHERE DocumentoID=24
 SELECT * FROM Inventarios WHERE DocumentoID=16
@@ -384,3 +402,23 @@ CREATE TYPE dbo.LisDetalleDocumentos AS TABLE
 	PorcentajeDescuento decimal (18,2) null,
 	Neto decimal (18,2) null
 )
+
+SpCrearDocumento
+    @PersonaIDCliente = 0,
+	@PersonaIDVendedor = 23,
+	@PrimerNombre = 'Mauricio 7',
+	@SegundoNombre = 'a',
+	@PrimerApellido = 'b',
+	@SegundoApellido = 'c',
+	@EsCliente = 1,
+	@EsProveedor = 1,
+	@Cantidad = 1,
+	@Identificacion = '1234567',
+	@Direccion = 'calle80',
+	@DocumentoID = 0,
+	@TipoDocumentoID = 2,
+	@ValorTotal = 45500,
+	@ProductoID = 2,
+	@ValorUnitario = 20500,
+	@PorcentajeDescuento = 0,
+	@IdOutPut = 0

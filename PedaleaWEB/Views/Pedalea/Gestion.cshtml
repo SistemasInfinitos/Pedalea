@@ -209,7 +209,6 @@
                 url: '/api/PedaleaAPI/CrearDocumento',
                 type: "POST",
                 data: value,
-                //contentType: "application/json",
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
@@ -226,6 +225,7 @@
                     }
                 },
                 complete: function () {
+                    $("#modalCrear").modal("hide");
                     GetDocumento();
                 },
                 error: function (data) {

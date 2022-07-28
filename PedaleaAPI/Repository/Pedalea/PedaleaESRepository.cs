@@ -45,7 +45,7 @@ namespace PedaleaAPI.Repository.Pedalea
 
         public async Task<int> CrearDocumento(Pedidos entidad)
         {
-            int rowsAffected = 0;
+            SqlDataReader response;
             using (SqlConnection con = new SqlConnection(_jwtConfig.ConnectionString))
             {
                 try
@@ -56,7 +56,7 @@ namespace PedaleaAPI.Repository.Pedalea
 
                     foreach (var item in entidad.LisPedidos) 
                     { 
-                        cmd.Parameters.Add("@DocumentoID", SqlDbType.Int).Value = entidad.DocumentoID> 0? entidad.DocumentoID:rowsAffected;
+                        cmd.Parameters.Add("@DocumentoID", SqlDbType.Int).Value = entidad.DocumentoID;
                         cmd.Parameters.Add("@ValorTotal", SqlDbType.Decimal).Value = entidad.ValorTotal;
                         cmd.Parameters.Add("@TipoDocumentoID", SqlDbType.Int).Value = entidad.TipoDocumentoID;
                         cmd.Parameters.Add("@PersonaIDCliente", SqlDbType.Int).Value = entidad.PersonaIDCliente;
@@ -73,14 +73,15 @@ namespace PedaleaAPI.Repository.Pedalea
                         cmd.Parameters.Add("@ValorUnitario", SqlDbType.Decimal).Value = item.ValorUnitario;
                         cmd.Parameters.Add("@Cantidad", SqlDbType.Decimal).Value = item.Cantidad;
                         cmd.Parameters.Add("@PorcentajeDescuento", SqlDbType.Decimal).Value = item.PorcentajeDescuento;
-                        cmd.Parameters.Add("@IdOutPut", SqlDbType.Int).Value = rowsAffected;
+                        cmd.Parameters.Add("@IdOutPut", SqlDbType.Int).Value = entidad.DocumentoID;
 
-                        rowsAffected = await cmd.ExecuteNonQueryAsync();
+                        response = await cmd.ExecuteReaderAsync();
+                        await response.ReadAsync();
+                        entidad.DocumentoID = Convert.ToInt32(response["DocumentoID"]);
                     }
 
-
                     con.Close();
-                    return rowsAffected;
+                    return entidad.DocumentoID.Value;
                 }
                 catch (Exception e)
                 {
