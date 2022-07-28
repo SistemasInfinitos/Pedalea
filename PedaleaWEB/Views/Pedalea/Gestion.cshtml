@@ -149,7 +149,7 @@
   </div>
 </div>
 <script>
-    var listDetallePedidos = [];
+    var Pedidos = [];
     var DocumentoID = 0;
     var ProductoID = 0;
     var update = false;
@@ -319,7 +319,7 @@
     }
 
     $("#ProductoID").keyup(function(e) {
-        debugger
+        
         var ProductoID = $("#ProductoID").val();
         if (ProductoID!=null && ProductoID!=undefined && ProductoID!="") 
         {
@@ -328,7 +328,7 @@
     });  
     
     $("#ProductoID").change(function(e) {
-        debugger
+        
         var ProductoID = $("#ProductoID").val();
         if (ProductoID!=null && ProductoID!=undefined && ProductoID!="") 
         {
@@ -371,7 +371,7 @@
         });
     }
 
-    function SelectLisProductosById() {debugger
+    function SelectLisProductosById() {
         var ProductoID = $("#ProductoID").val();
         var name = "0";
         if (ProductoID==null || ProductoID==undefined|| ProductoID=="") {ProductoID=0 }
@@ -389,7 +389,7 @@
                     + localStorage.getItem("accessToken")
             },
             success: function (response) {
-                debugger               
+                               
                 if (response.responseClient.success==true) {
                     if (response.model.length>0) {
                          $(response.model).each(function (i) {
@@ -409,50 +409,66 @@
     }
 
     function AddArray() {
-        debugger
+        
         var ProductoID = $("#ProductoID").val();
-        var ProductoTex = $("#ProductoID option:selected").text();;
+        var ProductoTex = $("#ProductoID option:selected").text();
         var ValorUnitario = parseFloat(quitCommas($("#ValorUnitario").val()));
         var Cantidad = parseFloat(quitCommas($("#Cantidad").val()));
         var PorcentajeDescuento = parseFloat(quitCommas($("#PorcentajeDescuento").val()));
         var Neto = ((Cantidad)*(ValorUnitario-((ValorUnitario*PorcentajeDescuento)/100)));
-         var objIndex = listDetallePedidos.findIndex((obj => obj.ProductoID == ProductoID));
+
+         var objIndex = Pedidos.findIndex((obj => obj.ProductoID == ProductoID));
         //Update object's goles property.
         if (objIndex >=0) {
-            listDetallePedidos[objIndex].Cantidad += Cantidad;
-            listDetallePedidos[objIndex].ValorUnitario = ValorUnitario;
-            listDetallePedidos[objIndex].PorcentajeDescuento = ValorUnitario;
-            listDetallePedidos[objIndex].Neto = Neto;
+            
+            Pedidos[objIndex].Cantidad = Cantidad;
+            Pedidos[objIndex].ValorUnitario = ValorUnitario;
+            Pedidos[objIndex].PorcentajeDescuento = PorcentajeDescuento;
+            Pedidos[objIndex].Neto = Neto;
         }
         else {
             b = { ProductoID: ProductoID,Producto:ProductoTex, ValorUnitario: ValorUnitario, Cantidad: Cantidad,PorcentajeDescuento:PorcentajeDescuento,Neto:Neto };
-            listDetallePedidos.push(b);
+            Pedidos.push(b);
         }
-        debugger
+        
         PrintTableArray();
     }
 
     function PrintTableArray() {
         var Total = 0;
         var Descuento = 0;
+
         $('#tableArray').DataTable().clear();
         $('#tableArray').DataTable().destroy();
         $('#tableArray').find('tbody').empty();
-        for (var i = 0; i < listDetallePedidos.length; i++) {
+        for (var i = 0; i < Pedidos.length; i++) {
             $('#tableArray').find('tbody').append(
                 `<tr id="">
-                    <td align="center">${listDetallePedidos[i].ProductoID}</td>
-                    <td align="center">${listDetallePedidos[i].Producto}</td>
-                    <td align="center">${listDetallePedidos[i].ValorUnitario}</td>
-                    <td align="center">${listDetallePedidos[i].Cantidad}</td>
-                    <td align="center">${listDetallePedidos[i].PorcentajeDescuento}</td>
-                    <td align="center">${listDetallePedidos[i].Neto}</td>
+                    <td align="center">${Pedidos[i].ProductoID}</td>
+                    <td align="center">${Pedidos[i].Producto}</td>
+                    <td align="center">${Pedidos[i].ValorUnitario}</td>
+                    <td align="center">${Pedidos[i].Cantidad}</td>
+                    <td align="center">${Pedidos[i].PorcentajeDescuento}</td>
+                    <td align="center">${Pedidos[i].Neto}</td>
                     <td align="center">
-                        <button type="button" class="btn btn-warning btn-xs" onclick="Quitar('${listDetallePedidos[i].ProductoID}')">
+                        <button type="button" class="btn btn-warning btn-xs" onclick="QuitarItemArray(${i})">
                             <i class="fa fa-trash"></i>&nbsp;Quitar&nbsp;&nbsp;
                         </button>
                     </td>
             </tr >`);
+            Total += ((Pedidos[i].Cantidad)*(Pedidos[i].ValorUnitario-((Pedidos[i].ValorUnitario*Pedidos[i].PorcentajeDescuento)/100)));
         }
+            $('#tableArray').find('tfoot').empty();
+            debugger
+            var foot = $("#tableArray").find('tfoot');
+            if (!foot.length) foot = $('<tfoot>').appendTo("#tableArray"); 
+            var result = Total.toFixed(2);
+            result = addCommas(result);
+            foot.append($(`<tr><td colspan="6">Total<td>${result}</td></tr>`));
+    }
+
+    function QuitarItemArray(i) {
+        Pedidos.splice(i,1);
+        PrintTableArray();
     }
 </script>
