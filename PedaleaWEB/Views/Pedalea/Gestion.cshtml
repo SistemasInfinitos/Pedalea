@@ -172,7 +172,11 @@
 
          var TipoDocumentoID = $("#TipoDocumentoID").val();
          var PersonaIDCliente = $("#PersonaIDCliente").val();
+            if (PersonaIDCliente > 0) { } else {PersonaIDCliente=0 }
+
          var PersonaIDVendedor = $("#PersonaIDVendedor").val();
+         if (PersonaIDVendedor > 0) { } else {PersonaIDVendedor=0 }
+
          var PrimerNombre = $("#PrimerNombre").val();
          var SegundoNombre = $("#SegundoNombre").val();
          var PrimerApellido = $("#PrimerApellido").val();
@@ -185,8 +189,8 @@
             DocumentoID: DocumentoID, //Solo si se actualiza el documento
             ValorTotal: ValorTotal,// lo ideal es racalcular en el server por seguridad
             TipoDocumentoID: 2,// 2 es venta o salida de inventario
-            PersonaIDCliente: Identificacion,
-            PersonaIDVendedor: 0,// para otra ocacion (este seria el id de usuario)
+            PersonaIDCliente: PersonaIDCliente,
+            PersonaIDVendedor: PersonaIDVendedor,// para otra ocacion (este seria el id de usuario)
             PrimerNombre: PrimerNombre,
             SegundoNombre: SegundoNombre,
             PrimerApellido: PrimerApellido,
@@ -203,7 +207,7 @@
         if (update == false) {
             $.ajax({
                 url: '/api/PedaleaAPI/CrearPersonas',
-                method: 'Post',
+                'type': 'POST',
                 data: value,
                 headers: {
                     'Accept': 'application/json',
