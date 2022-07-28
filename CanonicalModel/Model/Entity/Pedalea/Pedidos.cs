@@ -25,7 +25,7 @@ namespace CanonicalModel.Model.Entity.Pedalea
         public bool? EsCliente { get; set; }
         public bool? EsProveedor { get; set; }
 
-        public List<Productos>? LisPedidos { get; set; }
+        public List<Productos> LisPedidos { get; set; }
     }
 }
 
