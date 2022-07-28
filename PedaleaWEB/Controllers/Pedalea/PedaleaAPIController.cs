@@ -1,6 +1,7 @@
 ﻿using CanonicalModel.Model.Configuration;
 using CanonicalModel.Model.Entity.Pedalea;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -290,9 +291,11 @@ namespace PedaleaWEB.Controllers.Pedalea
 
                     try
                     {
+
                         var json = JsonSerializer.Serialize(value, options);
                         var data = new StringContent(json, Encoding.UTF8, "application/json");
-                        var response = await httpClient.PostAsync(uri, data);
+
+                        var response = await httpClient.PostAsJsonAsync<Pedidos>(uri, value);
 
                         if (response.IsSuccessStatusCode)
                         {

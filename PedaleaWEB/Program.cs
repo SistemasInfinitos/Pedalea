@@ -1,4 +1,6 @@
 using CanonicalModel.Model.Configuration;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddOptions();
 builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection($"JwtConfiguration"));
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+});
 
 builder.Services.AddSession(options =>
 {
