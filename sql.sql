@@ -383,9 +383,9 @@ SpCrearDocumento @PersonaIDVendedor=15 ,@PrimerNombre='Misael Bello',@PersonaIDC
 
 
 SELECT * FROM Personas
-SELECT * FROM Documentos WHERE DocumentoID=24
-SELECT * FROM DetalleDocumentos WHERE DocumentoID=24
-SELECT * FROM Inventarios WHERE DocumentoID=16
+SELECT * FROM Documentos WHERE DocumentoID=42
+SELECT * FROM DetalleDocumentos WHERE DocumentoID=42
+SELECT * FROM Inventarios WHERE DetalleDocumentoID in(71,72,73)
 
 
 
